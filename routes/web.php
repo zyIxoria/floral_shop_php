@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductControllers;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -16,8 +17,12 @@ use App\Http\Controllers\Admin\CouponAdminController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/shop', [ProductControllers::class, 'shop'])->name('products.shop');
-Route::get('/product/{slug}', [ProductControllers::class, 'show'])->name('products.show');
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
+Route::get('/shop/category/{category}', [HomeController::class, 'shop'])->name('shop.category');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/product/{product}/reviews', [ProductController::class, 'addReview'])
+    ->middleware('auth')
+    ->name('reviews.store');
 
 // Cart Routes
 Route::middleware('auth')->group(function () {
@@ -31,8 +36,13 @@ Route::middleware('auth')->group(function () {
 // Checkout Routes
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('checkout.applyCoupon');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    // Payment Routes
+    Route::get('/payment/vnpay/{order}', [PaymentController::class, 'vnpay'])->name('payment.vnpay');
+    Route::get('/payment/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpay.return');
 });
 
 // Wishlist Routes
@@ -46,8 +56,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
     Route::get('/profile/order/{order}', [ProfileController::class, 'orderDetail'])->name('profile.orderDetail');
+    Route::get('/profile/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
 });
 
 // Admin Routes

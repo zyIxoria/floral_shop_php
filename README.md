@@ -1,232 +1,197 @@
-# 🌸 Floral Shop - Laravel 11 E-commerce Website
+# Floral Shop PHP
 
-A modern, production-ready e-commerce website for selling fresh flowers built with Laravel 11, Bootstrap 5, and MySQL.
+Website bán hoa xây bằng Laravel 11, Blade, Bootstrap 5 và MySQL.
 
-## 🎨 Features
+## Yêu cầu môi trường
 
-### 👤 User Management
-- User registration and authentication (Laravel Breeze)
-- Role-based access control (Admin & Customer)
-- User profile management
-- Password reset and change password functionality
-- User blocking/unblocking (Admin)
-
-### 🛍️ Product Management
-- Product catalog with categories
-- Multiple product images gallery
-- Product search and filtering
-- Product sorting (newest, price asc/desc)
-- Product ratings and reviews
-- Stock management
-- Sale prices and discounts
-
-### 🛒 Shopping Features
-- Shopping cart with add/remove/update quantity
-- Wishlist functionality
-- Product reviews and ratings
-- Coupon/discount system
-- Multiple coupon types (percentage & fixed)
-
-### 📦 Order Management
-- Checkout process
-- Order history
-- Multiple payment methods (COD, VNPay)
-- Order status tracking
-- Order confirmation
-
-### 🎯 Admin Dashboard
-- Dashboard with key metrics
-- Product management (CRUD)
-- Category management (CRUD)
-- Order management with status updates
-- User management
-- Coupon management
-- Revenue tracking
-
-### 🎨 UI/UX Design
-- Responsive design (mobile-first)
-- Modern minimalist design
-- Color scheme: White, Pastel Pink, Light Green
-- Bootstrap 5 framework
-- Smooth animations and transitions
-- Sticky navbar
-- Professional footer
-
-## 🛠️ Technology Stack
-
-### Backend
-- **Laravel 11** - Web framework
-- **PHP 8+** - Programming language
-- **MySQL** - Database
-- **Eloquent ORM** - Database abstraction
-- **Laravel Breeze** - Authentication scaffolding
-
-### Frontend
-- **Blade Template Engine** - Server-side templating
-- **Bootstrap 5** - CSS framework
-- **Bootstrap Icons** - Icon library
-- **JavaScript/Axios** - Client-side functionality
-- **AJAX** - Dynamic interactions
-
-### Development Tools
-- **Composer** - PHP dependency manager
-- **NPM** - Node package manager
-- **Artisan CLI** - Laravel command-line interface
-
-## 📋 Installation Guide
-
-### Prerequisites
-- PHP 8.2 or higher
+- PHP 8.2 trở lên
 - Composer
-- Node.js & NPM
-- MySQL 8.0 or higher
+- MySQL hoặc MariaDB
 - Git
+- Node.js/NPM: không bắt buộc để chạy bản hiện tại, vì CSS/JS đang dùng file tĩnh trong `public/css` và `public/js`
 
-### Step 1: Clone Repository
+Nếu dùng Laragon trên Windows, PHP thường nằm ở dạng:
+
+```powershell
+C:\laragon\bin\php\php-8.x.x-Win32-vs16-x64\php.exe
+```
+
+Bạn nên thêm thư mục PHP đó vào `PATH` để dùng được lệnh `php` trực tiếp.
+
+## Cài đặt lần đầu
+
+1. Clone project:
+
 ```bash
 git clone https://github.com/zyIxoria/floral_shop_php.git
 cd floral_shop_php
 ```
 
-### Step 2: Install PHP Dependencies
+2. Cài thư viện PHP:
+
 ```bash
 composer install
 ```
 
-### Step 3: Setup Environment
+3. Tạo file môi trường và application key:
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+php artisan key:generate
+```
+
+Git Bash/macOS/Linux:
+
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-### Step 4: Configure Database
-Edit `.env` file:
+4. Tạo database MySQL tên `floral_shop`.
+
+Ví dụ với MySQL CLI:
+
+```bash
+mysql -u root -p -e "CREATE DATABASE floral_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+```
+
+5. Cập nhật `.env` cho đúng database:
+
 ```env
-DB_DATABASE=floral_shop
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=floralshop
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-### Step 5: Run Migrations & Seeders
+6. Chạy migration, seed dữ liệu mẫu và tạo storage link:
+
 ```bash
 php artisan migrate
 php artisan db:seed
 php artisan storage:link
 ```
 
-### Step 6: Install Frontend Dependencies
+Nếu database đã có dữ liệu test cũ và bạn muốn reset sạch:
+
 ```bash
-npm install
-npm run build
+php artisan migrate:fresh --seed
+php artisan storage:link
 ```
 
-### Step 7: Start Development Server
+7. Chạy server Laravel:
+
 ```bash
 php artisan serve
 ```
 
-Access the application at `http://localhost:8000`
+Mở trình duyệt tại:
 
-## 👤 Default Credentials
-
-### Admin Account
-- **Email**: admin@gmail.com
-- **Password**: 12345678
-- **Role**: Admin
-
-### Sample Customer
-- **Email**: customer@gmail.com
-- **Password**: 12345678
-- **Role**: Customer
-
-## 📂 Project Structure
-
-```
-floral-shop/
-├── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   │   ├── Admin/
-│   │   │   └── ...
-│   │   └── Middleware/
-│   ├── Models/
-│   └── Services/
-├── database/
-│   ├── migrations/
-│   └── seeders/
-├── resources/
-│   ├── views/
-│   │   ├── layouts/
-│   │   ├── admin/
-│   │   ├── products/
-│   │   ├── cart/
-│   │   ├── checkout/
-│   │   └── profile/
-│   └── css/
-├── routes/
-│   └── web.php
-├── public/
-│   ├── css/
-│   └── images/
-└── storage/
-    └── app/public/
+```text
+http://localhost:8000
 ```
 
-## 🔐 Security Features
+## Tài khoản mẫu
 
-- CSRF protection on all forms
-- SQL injection prevention (Eloquent ORM)
-- Password hashing (Bcrypt)
-- Authentication middleware
-- Authorization checks (admin/customer)
-- File upload validation
-- Input validation on all forms
+Admin:
 
-## 📦 Database Schema
+```text
+Email: admin@gmail.com
+Password: 12345678
+```
 
-### Tables
-- `users` - User accounts and profiles
-- `categories` - Product categories
-- `products` - Product information
-- `product_images` - Product gallery images
-- `carts` - Shopping carts
-- `cart_items` - Cart items
-- `orders` - Customer orders
-- `order_items` - Order line items
-- `payments` - Payment information
-- `reviews` - Product reviews and ratings
-- `wishlists` - User wishlists
-- `coupons` - Discount coupons
-- `coupon_usages` - Coupon usage tracking
-- `contacts` - Contact messages
+Customer:
 
-## 🚀 Features in Development
+```text
+Email: customer@gmail.com
+Password: 12345678
+```
 
-- [ ] Email notifications for orders
-- [ ] Advanced analytics dashboard
-- [ ] Inventory alerts
-- [ ] Customer loyalty program
-- [ ] AI-powered product recommendations
-- [ ] Social sharing features
-- [ ] Live chat support
+## Thanh toán chuyển khoản giả lập
 
-## 📄 License
+Checkout có thêm phương thức `Chuyển Khoản Giả Lập`.
 
-This project is open source and available under the MIT License.
+Ảnh QR được load từ:
 
-## 👥 Contributing
+```text
+public/assets/payment/qrcode.png
+```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Nếu muốn đổi QR, thay file PNG ở đúng đường dẫn trên. Trang checkout sẽ tự hiển thị tổng tiền cần thanh toán theo giỏ hàng.
 
-## 📞 Support
+## Frontend assets
 
-For support, email support@floralshop.com or open an issue on GitHub.
+Project hiện đang dùng asset tĩnh:
 
-## 👨‍💻 Author
+```text
+public/css/custom.css
+public/css/responsive.css
+public/js/app.js
+public/js/cart.js
+public/js/checkout.js
+```
 
-**zyIxoria**
-- GitHub: [@zyIxoria](https://github.com/zyIxoria)
+Vì chưa có `vite.config.js`, bạn không cần chạy `npm install` hoặc `npm run build` để mở website. Chỉ cần các file trong `public` tồn tại là giao diện chạy được.
 
----
+Nếu sau này muốn chuyển sang Vite, cần bổ sung `vite.config.js` và đổi layout sang `@vite(...)`.
 
-**Made with ❤️ for flower lovers**
+## Kiểm tra sau cài đặt
+
+Chạy các lệnh sau:
+
+```bash
+php artisan about --only=environment
+php artisan route:list
+```
+
+Bạn nên thấy Laravel boot được và danh sách route hiển thị bình thường.
+
+## Lỗi thường gặp
+
+Không nhận lệnh `php`:
+
+- Kiểm tra PHP đã được thêm vào `PATH`.
+- Với Laragon, mở Terminal từ Laragon hoặc thêm thư mục `C:\laragon\bin\php\...\` vào `PATH`.
+
+Không kết nối được database:
+
+```bash
+php artisan config:clear
+```
+
+Sau đó kiểm tra lại `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` trong `.env`.
+
+Muốn xóa cache Laravel:
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+```
+
+## Cấu trúc chính
+
+```text
+app/
+database/
+public/
+resources/
+routes/
+storage/
+```
+
+Trong đó:
+
+- `app/Http/Controllers`: controllers
+- `app/Models`: models
+- `database/migrations`: cấu trúc database
+- `database/seeders`: dữ liệu mẫu
+- `resources/views`: Blade views
+- `public`: entrypoint, CSS/JS tĩnh, ảnh QR thanh toán
+- `routes/web.php`: routes chính của website

@@ -52,6 +52,12 @@ class ProfileController extends Controller
         return view('profile.orders', compact('orders'));
     }
 
+    public function orderDetail($id)
+    {
+        $order = auth()->user()->orders()->with('items.product')->findOrFail($id);
+        return view('profile.order-detail', compact('order'));
+    }
+
     public function wishlist()
     {
         $wishlists = auth()->user()->wishlists()->with('product')->paginate(12);

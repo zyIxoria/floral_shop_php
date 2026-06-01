@@ -21,7 +21,7 @@ class CheckoutRequest extends FormRequest
 
             'shipping_address' => 'required|string|max:1000',
 
-            'payment_method' => 'required|in:cod,vnpay',
+            'payment_method' => 'required|in:cod,vnpay,bank_transfer',
 
             'coupon_id' => 'nullable|exists:coupons,id',
 

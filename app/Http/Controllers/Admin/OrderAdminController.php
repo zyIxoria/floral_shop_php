@@ -44,6 +44,16 @@ class OrderAdminController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
+    public function update(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,confirmed,shipped,delivered,cancelled',
+        ]);
+
+        $order->update($validated);
+        return back()->with('success', 'Order status updated successfully');
+    }
+
     public function destroy(Order $order)
     {
         $order->delete();

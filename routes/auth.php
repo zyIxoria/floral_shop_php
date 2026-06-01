@@ -1,5 +1,3 @@
-<!-- // routes/auth.php -->
-
 <?php
 
 use Illuminate\Support\Facades\Route;

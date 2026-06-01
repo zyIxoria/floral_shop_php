@@ -12,6 +12,12 @@ class WishlistController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $wishlists = auth()->user()->wishlists()->with('product')->paginate(12);
+        return view('profile.wishlist', compact('wishlists'));
+    }
+
     public function add(Request $request)
     {
         $validated = $request->validate([

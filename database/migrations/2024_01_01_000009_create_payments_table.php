@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->string('transaction_id')->nullable();
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->enum('method', ['cod', 'vnpay'])->default('cod');
+            $table->enum('method', ['cod', 'vnpay', 'bank_transfer'])->default('cod');
             $table->decimal('amount', 10, 2);
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();

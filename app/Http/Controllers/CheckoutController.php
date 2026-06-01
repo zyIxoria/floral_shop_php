@@ -59,7 +59,7 @@ class CheckoutController extends Controller
             'shipping_address' => 'required|string',
             'shipping_phone' => 'required|string',
             'shipping_email' => 'required|email',
-            'payment_method' => 'required|in:cod,vnpay',
+            'payment_method' => 'required|in:cod,vnpay,bank_transfer',
             'coupon_id' => 'nullable|exists:coupons,id',
             'notes' => 'nullable|string',
         ]);
