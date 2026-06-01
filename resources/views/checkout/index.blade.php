@@ -68,7 +68,7 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
                                         <div class="qr-frame">
-                                            <img src="{{ asset('assets/payment/qrcode.png') }}"
+                                            <img src="{{ asset('assets/payment_qr/qrcode.png') }}"
                                                  alt="QR chuyển khoản"
                                                  class="img-fluid"
                                                  id="paymentQrImage">

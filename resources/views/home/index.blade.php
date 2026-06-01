@@ -21,7 +21,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="text-center">
-                    <img src="https://via.placeholder.com/400x400?text=Flowers" alt="Hero" class="img-fluid rounded-4 shadow">
+                    <img src="{{ asset('assets/categories/roses.jpg') }}" alt="Roses" class="img-fluid rounded-4 shadow">
                 </div>
             </div>
         </div>
