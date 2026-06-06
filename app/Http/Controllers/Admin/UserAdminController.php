@@ -52,9 +52,20 @@ class UserAdminController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:customer,admin',
             'status' => 'required|in:active,blocked',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[!@#$%^&*(),.?":{}|<>_+-]/',
+            ],
         ], [
             'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
+            'password.min' => 'Mật khẩu phải dài ít nhất 8 ký tự.',
+            'password.regex' => 'Mật khẩu phải bao gồm cả chữ hoa, chữ thường, số và ký tự đặc biệt.',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -88,9 +99,20 @@ class UserAdminController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:customer,admin',
             'status' => 'required|in:active,blocked',
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[!@#$%^&*(),.?":{}|<>_+-]/',
+            ],
         ], [
             'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
+            'password.min' => 'Mật khẩu phải dài ít nhất 8 ký tự.',
+            'password.regex' => 'Mật khẩu phải bao gồm cả chữ hoa, chữ thường, số và ký tự đặc biệt.',
         ]);
 
         if (empty($validated['password'])) {

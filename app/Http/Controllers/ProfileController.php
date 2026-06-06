@@ -35,7 +35,20 @@ class ProfileController extends Controller
     {
         $validated = $request->validate([
             'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[!@#$%^&*(),.?":{}|<>_+-]/',
+            ],
+        ], [
+            'password.min' => 'Mật khẩu mới phải dài ít nhất 8 ký tự.',
+            'password.regex' => 'Mật khẩu mới phải bao gồm cả chữ hoa, chữ thường, số và ký tự đặc biệt.',
+            'password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
         ]);
 
         if (!Hash::check($validated['current_password'], auth()->user()->password)) {

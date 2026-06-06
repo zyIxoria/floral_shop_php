@@ -33,9 +33,19 @@ class RegisteredUserController extends Controller
                 'max:255',
                 'unique:users,email'
             ],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[!@#$%^&*(),.?":{}|<>_+-]/',
+            ],
         ], [
             'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
+            'password.min' => 'Mật khẩu phải dài ít nhất 8 ký tự.',
+            'password.regex' => 'Mật khẩu phải bao gồm cả chữ hoa, chữ thường, số và ký tự đặc biệt.',
         ]);
 
         $user = User::create([
