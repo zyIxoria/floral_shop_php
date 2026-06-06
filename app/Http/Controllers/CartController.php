@@ -30,6 +30,11 @@ class CartController extends Controller
 
         try {
             $this->cartService->addToCart($validated['product_id'], $validated['quantity']);
+            
+            if ($request->input('action') === 'buy_now') {
+                return redirect()->route('checkout.index');
+            }
+            
             return back()->with('success', 'Product added to cart');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

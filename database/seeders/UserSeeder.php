@@ -14,17 +14,17 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin user
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345678'),
-            'phone' => '0912345678',
-            'address' => '123 Trần Hưng Đạo, Quận 1, TP HCM',
-            'role' => 'admin',
-            'status' => 'active',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('12345678'),
+                'phone' => '0912345678',
+                'address' => '123 Trần Hưng Đạo, Quận 1, TP HCM',
+                'role' => 'admin',
+                'status' => 'active',
+            ]
+        );
 
         // Customer users with Vietnamese names
         $customers = [
@@ -61,17 +61,17 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($customers as $customer) {
-            User::create([
-                'name' => $customer['name'],
-                'email' => $customer['email'],
-                'password' => Hash::make('12345678'),
-                'phone' => $customer['phone'],
-                'address' => $customer['address'],
-                'role' => 'customer',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            User::firstOrCreate(
+                ['email' => $customer['email']],
+                [
+                    'name' => $customer['name'],
+                    'password' => Hash::make('12345678'),
+                    'phone' => $customer['phone'],
+                    'address' => $customer['address'],
+                    'role' => 'customer',
+                    'status' => 'active',
+                ]
+            );
         }
     }
 }

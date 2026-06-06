@@ -56,12 +56,24 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'shipping_address' => 'required|string',
-            'shipping_phone' => 'required|string',
+            'address_street' => 'required|string',
+            'address_ward' => 'required|string',
+            'address_district' => 'required|string',
+            'address_city' => 'required|string',
+            'shipping_phone' => ['required', 'string', 'regex:/^(03|05|07|08|09)[0-9]{8}$/'],
             'shipping_email' => 'required|email',
             'payment_method' => 'required|in:cod,vnpay,bank_transfer',
             'coupon_id' => 'nullable|exists:coupons,id',
             'notes' => 'nullable|string',
+        ], [
+            'shipping_phone.regex' => 'Số điện thoại phải có 10 chữ số và bắt đầu bằng các đầu số hợp lệ của Việt Nam (03, 05, 07, 08, 09).'
+        ]);
+
+        $validated['shipping_address'] = implode(', ', [
+            $validated['address_street'],
+            $validated['address_ward'],
+            $validated['address_district'],
+            $validated['address_city']
         ]);
 
         try {
@@ -75,7 +87,7 @@ class CheckoutController extends Controller
             return redirect()->route('checkout.success', $order)
                            ->with('success', 'Order created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
         }
     }
 

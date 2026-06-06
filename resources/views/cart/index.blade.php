@@ -11,16 +11,16 @@
             @if($cart->items->count() > 0)
             <div class="table-responsive">
                 <table class="table border-0">
-                    <thead class="border-bottom">
+                    <thead class="border-bottom align-middle">
                         <tr>
                             <th>Sản Phẩm</th>
                             <th>Giá</th>
-                            <th>Số Lượng</th>
+                            <th class="text-center">Số Lượng</th>
                             <th>Tổng</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="align-middle">
                         @foreach($cart->items as $item)
                         <tr class="border-bottom">
                             <td>
@@ -36,17 +36,17 @@
                             </td>
                             <td>{{ number_format($item->product->getCurrentPrice()) }}đ</td>
                             <td>
-                                <div class="input-group" style="width: 100px;">
-                                    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-flex gap-1">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button class="btn btn-sm btn-outline-secondary" type="button" 
-                                                onclick="this.form.quantity.value--; this.form.submit()">-</button>
-                                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="form-control form-control-sm text-center" readonly>
-                                        <button class="btn btn-sm btn-outline-secondary" type="button" 
+                                <form action="{{ route('cart.update', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="input-group input-group-sm flex-nowrap mx-auto" style="width: 110px;">
+                                        <button class="btn btn-outline-secondary px-2" type="button" 
+                                                onclick="if(this.form.quantity.value > 1) { this.form.quantity.value--; this.form.submit(); }">-</button>
+                                        <input type="text" name="quantity" value="{{ $item->quantity }}" class="form-control text-center px-1" style="min-width: 40px;" readonly>
+                                        <button class="btn btn-outline-secondary px-2" type="button" 
                                                 onclick="this.form.quantity.value++; this.form.submit()">+</button>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </td>
                             <td class="fw-bold">{{ number_format($item->getTotal()) }}đ</td>
                             <td>

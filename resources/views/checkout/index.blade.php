@@ -32,12 +32,42 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Số Điện Thoại *</label>
-                            <input type="tel" name="shipping_phone" class="form-control" value="{{ $user->phone }}" required>
+                            <input type="tel" name="shipping_phone" class="form-control @error('shipping_phone') is-invalid @enderror" value="{{ old('shipping_phone', $user->phone) }}" required>
+                            @error('shipping_phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Địa Chỉ Giao Hàng *</label>
-                            <textarea name="shipping_address" class="form-control" rows="3" required>{{ $user->address }}</textarea>
+                            <label class="form-label fw-bold">Tỉnh/Thành phố *</label>
+                            <select name="address_city" class="form-select @error('address_city') is-invalid @enderror" required>
+                                <option value="">Chọn Tỉnh/Thành phố</option>
+                                <option value="Hà Nội" {{ old('address_city') == 'Hà Nội' ? 'selected' : '' }}>Hà Nội</option>
+                                <option value="TP Hồ Chí Minh" {{ old('address_city') == 'TP Hồ Chí Minh' ? 'selected' : '' }}>TP Hồ Chí Minh</option>
+                                <option value="Đà Nẵng" {{ old('address_city') == 'Đà Nẵng' ? 'selected' : '' }}>Đà Nẵng</option>
+                                <option value="Hải Phòng" {{ old('address_city') == 'Hải Phòng' ? 'selected' : '' }}>Hải Phòng</option>
+                                <option value="Cần Thơ" {{ old('address_city') == 'Cần Thơ' ? 'selected' : '' }}>Cần Thơ</option>
+                                <option value="Khác" {{ old('address_city') == 'Khác' ? 'selected' : '' }}>Tỉnh thành khác</option>
+                            </select>
+                            @error('address_city')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Quận/Huyện *</label>
+                            <input type="text" name="address_district" class="form-control @error('address_district') is-invalid @enderror" value="{{ old('address_district') }}" required placeholder="Ví dụ: Quận 1, Huyện Bình Chánh...">
+                            @error('address_district')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Phường/Xã *</label>
+                            <input type="text" name="address_ward" class="form-control @error('address_ward') is-invalid @enderror" value="{{ old('address_ward') }}" required placeholder="Ví dụ: Phường Bến Nghé, Xã Bình Hưng...">
+                            @error('address_ward')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Số nhà, Tên đường *</label>
+                            <input type="text" name="address_street" class="form-control @error('address_street') is-invalid @enderror" value="{{ old('address_street') }}" required placeholder="Ví dụ: 123 Đường Lê Lợi">
+                            @error('address_street')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="mb-3">
@@ -68,16 +98,17 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
                                         <div class="qr-frame">
-                                            <img src="{{ asset('assets/payment_qr/qrcode.png') }}"
+                                            <img src="{{ asset('assets/payment/qrcode.png') }}"
                                                  alt="QR chuyển khoản"
                                                  class="img-fluid"
                                                  id="paymentQrImage">
-                                            <div class="qr-missing d-none" id="paymentQrMissing">
-                                                Đặt file QR tại public/assets/payment/qrcode.png
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <span class="text-muted">Số tài khoản:</span>
+                                            <strong class="fs-5 ms-2 text-primary">225515233865</strong>
+                                        </div>
                                         <p class="mb-2 text-muted">Số tiền cần thanh toán</p>
                                         <div class="payment-amount">{{ $formattedCartTotal }}</div>
                                         <div class="payment-note mt-3">
@@ -204,7 +235,19 @@
 
         const toggleBankTransfer = function () {
             const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
-            bankTransferBox.classList.toggle('d-none', selectedMethod?.value !== 'bank_transfer');
+            const isBankTransfer = selectedMethod?.value === 'bank_transfer';
+            bankTransferBox.classList.toggle('d-none', !isBankTransfer);
+            
+            const submitBtn = document.querySelector('#checkoutForm button[type="submit"]');
+            if(isBankTransfer) {
+                submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> Tôi Đã Chuyển Khoản (Hoàn Tất Đặt Hàng)';
+                submitBtn.classList.remove('btn-primary');
+                submitBtn.classList.add('btn-success');
+            } else {
+                submitBtn.innerHTML = 'Đặt Hàng';
+                submitBtn.classList.remove('btn-success');
+                submitBtn.classList.add('btn-primary');
+            }
         };
 
         paymentMethods.forEach(function (method) {

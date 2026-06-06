@@ -14,6 +14,9 @@
             <h3 class="fw-bold">Quản lý Khách hàng</h3>
             <p class="text-muted">Tổng cộng: <strong>{{ $users->total() }}</strong> khách hàng</p>
         </div>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Thêm khách hàng
+        </a>
     </div>
     
     <!-- Users Table -->

@@ -31,7 +31,12 @@
 
                             <input type="text"
                                    name="name"
-                                   class="form-control">
+                                   class="form-control @error('name') is-invalid @enderror"
+                                   value="{{ old('name') }}">
+
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                         </div>
 
@@ -41,7 +46,12 @@
 
                             <input type="email"
                                    name="email"
-                                   class="form-control">
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   value="{{ old('email') }}">
+
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                         </div>
 
@@ -51,7 +61,11 @@
 
                             <input type="password"
                                    name="password"
-                                   class="form-control">
+                                   class="form-control @error('password') is-invalid @enderror">
+
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                         </div>
 
@@ -68,6 +82,10 @@
                         <button class="btn btn-primary w-100">
                             Đăng Ký
                         </button>
+
+                        <div class="mt-3 text-center">
+                            <p>Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập ngay</a></p>
+                        </div>
 
                     </form>
 

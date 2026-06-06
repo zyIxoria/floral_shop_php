@@ -49,12 +49,12 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-4. Tạo database MySQL tên `floral_shop`.
+4. Tạo database MySQL tên `floralshop`.
 
 Ví dụ với MySQL CLI:
 
 ```bash
-mysql -u root -p -e "CREATE DATABASE floral_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -p -e "CREATE DATABASE floralshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
 
 5. Cập nhật `.env` cho đúng database:

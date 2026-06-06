@@ -34,6 +34,36 @@ class UserAdminController extends Controller
         return view('admin.users.index', compact('users', 'search', 'role'));
     }
 
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                'unique:users,email'
+            ],
+            'phone' => 'nullable|string|max:20',
+            'role' => 'required|in:customer,admin',
+            'status' => 'required|in:active,inactive',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        User::create($validated);
+
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully');
+    }
+
     public function show(User $user)
     {
         $user->load('orders', 'reviews', 'wishlists');
@@ -49,11 +79,18 @@ class UserAdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => [
+                'required',
+                'email',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                'unique:users,email,' . $user->id
+            ],
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:customer,admin',
             'status' => 'required|in:active,inactive',
             'password' => 'nullable|string|min:8|confirmed',
+        ], [
+            'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
         ]);
 
         if (empty($validated['password'])) {

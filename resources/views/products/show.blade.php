@@ -72,17 +72,22 @@
 
             <!-- Add to Cart -->
             <div class="mb-4">
-                <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-2 align-items-center">
+                <form action="{{ route('cart.add') }}" method="POST">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <div class="input-group" style="width: 120px;">
-                        <button class="btn btn-outline-secondary" type="button" onclick="document.querySelector('[name=quantity]').value--">-</button>
-                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control text-center">
-                        <button class="btn btn-outline-secondary" type="button" onclick="document.querySelector('[name=quantity]').value++">+</button>
+                    <div class="d-flex gap-2">
+                        <div class="input-group flex-nowrap" style="width: 140px;">
+                            <button class="btn btn-outline-secondary px-3" type="button" onclick="if(this.form.quantity.value > 1) this.form.quantity.value--">-</button>
+                            <input type="text" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control text-center px-1" readonly>
+                            <button class="btn btn-outline-secondary px-3" type="button" onclick="if(this.form.quantity.value < {{ $product->stock }}) this.form.quantity.value++">+</button>
+                        </div>
+                        <button type="submit" name="action" value="add" class="btn btn-primary flex-grow-1" {{ !$product->isInStock() ? 'disabled' : '' }}>
+                            <i class="bi bi-bag-plus"></i> Thêm Vào Giỏ
+                        </button>
+                        <button type="submit" name="action" value="buy_now" class="btn btn-primary flex-grow-1" {{ !$product->isInStock() ? 'disabled' : '' }}>
+                            <i class="bi bi-cart-check"></i> Thanh Toán Ngay
+                        </button>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg flex-grow-1" {{ !$product->isInStock() ? 'disabled' : '' }}>
-                        <i class="bi bi-bag-plus"></i> Thêm Vào Giỏ
-                    </button>
                 </form>
             </div>
 
@@ -92,7 +97,9 @@
                     <form action="{{ auth()->user()->wishlists()->where('product_id', $product->id)->exists() ? route('wishlist.remove', $product->id) : route('wishlist.add') }}" 
                           method="POST" class="d-inline">
                         @csrf
-                        @if(!auth()->user()->wishlists()->where('product_id', $product->id)->exists())
+                        @if(auth()->user()->wishlists()->where('product_id', $product->id)->exists())
+                            @method('DELETE')
+                        @else
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                         @endif
                         <button type="submit" class="btn btn-outline-danger">

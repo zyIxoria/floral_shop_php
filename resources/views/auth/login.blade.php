@@ -30,7 +30,12 @@
 
                             <input type="email"
                                    name="email"
-                                   class="form-control">
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   value="{{ old('email') }}">
+
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                         </div>
 
@@ -40,13 +45,26 @@
 
                             <input type="password"
                                    name="password"
-                                   class="form-control">
+                                   class="form-control @error('password') is-invalid @enderror">
 
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                         </div>
 
                         <button class="btn btn-primary w-100">
                             Đăng Nhập
                         </button>
+                        
+                        <div class="mt-3 text-center">
+                            <p>Chưa có tài khoản? <a href="{{ route('register') }}">Đăng ký ngay</a></p>
+                        </div>
 
                     </form>
 
