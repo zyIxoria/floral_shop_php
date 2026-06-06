@@ -1,9 +1,10 @@
 /* ===== FLORAL SHOP CUSTOM STYLES ===== */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #ff69b4;
-    --primary-light: #ffb3d9;
-    --primary-dark: #e63384;
+    --primary-color: #e06a96; /* Soft Rose Pink */
+    --primary-light: #f5c2d5;
+    --primary-dark: #b54670;
     --secondary-color: #98d8c8;
     --secondary-light: #b8e5dd;
     --secondary-dark: #5fb39f;
@@ -30,7 +31,7 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-color);
     background-color: #fafafa;
     line-height: 1.6;
@@ -39,8 +40,9 @@ body {
 /* ===== TYPOGRAPHY ===== */
 
 h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Segoe UI', Georgia, serif;
     color: var(--dark-color);
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
 }
 
@@ -63,9 +65,10 @@ a:hover {
 /* ===== BUTTONS ===== */
 
 .btn {
+    font-family: 'Quicksand', 'Nunito', sans-serif !important;
     border-radius: 8px;
     padding: 10px 20px;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
@@ -222,9 +225,11 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 100;
+    font-family: 'Quicksand', 'Nunito', sans-serif !important;
 }
 
 .navbar-brand {
+    font-family: 'Quicksand', 'Nunito', sans-serif !important;
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--primary-color) !important;
@@ -234,8 +239,9 @@ a:hover {
 }
 
 .nav-link {
+    font-family: 'Quicksand', 'Nunito', sans-serif !important;
     color: var(--text-color) !important;
-    font-weight: 500;
+    font-weight: 600;
     transition: color 0.3s ease;
     position: relative;
 }
@@ -257,6 +263,12 @@ a:hover {
 
 .nav-link:hover::after {
     width: 100%;
+}
+
+.navbar .dropdown-menu,
+.navbar .dropdown-item {
+    font-family: 'Quicksand', 'Nunito', sans-serif !important;
+    font-weight: 500;
 }
 
 /* ===== HERO SECTION ===== */

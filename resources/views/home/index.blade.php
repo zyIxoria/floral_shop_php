@@ -7,7 +7,7 @@
 <div class="hero-banner position-relative overflow-hidden" style="background: linear-gradient(135deg, #fff5f9 0%, #f0f8f4 100%); padding: 80px 0;">
     <div class="container-fluid px-4">
         <div class="row align-items-center">
-            <div class="col-lg-6">
+            <div class="col-lg-6 text-center text-lg-start pe-lg-5">
                 <h1 class="display-4 fw-bold text-primary mb-3">
                     Hoa Tươi Đẹp Nhất Cho Bạn
                 </h1>
@@ -21,7 +21,7 @@
             </div>
             <div class="col-lg-6 mt-5 mt-lg-0">
                 <div class="text-center">
-                    <img src="{{ asset('assets/categories/roses.jpg') }}" alt="Roses" class="img-fluid rounded-4 shadow">
+                    <img src="{{ Storage::url('avatars/dashboard.jpg') }}" alt="Roses" class="img-fluid rounded-4 shadow">
                 </div>
             </div>
         </div>

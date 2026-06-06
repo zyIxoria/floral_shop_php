@@ -46,7 +46,7 @@
                         </div>
                         <div class="row mb-0">
                             <div class="col-sm-4 text-muted">Tổng thanh toán:</div>
-                            <div class="col-sm-8 fw-bold text-danger fs-5">{{ number_format($order->total_amount, 0, ',', '.') }} ₫</div>
+                            <div class="col-sm-8 fw-bold text-danger fs-5"><span class="price-amount" data-vnd="{{ $order->total }}">{{ number_format($order->total, 0, ',', '.') }} ₫</span></div>
                         </div>
                     </div>
 
