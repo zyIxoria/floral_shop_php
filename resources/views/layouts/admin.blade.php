@@ -164,6 +164,22 @@
                         <i class="bi bi-ticket-perforated"></i> Mã giảm giá
                     </a>
                 </li>
+
+                <!-- Support Chat -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.chats.index') }}" class="nav-link {{ request()->routeIs('admin.chats.*') ? 'active' : '' }}">
+                        <i class="bi bi-chat-square-quote"></i> Hỗ trợ khách hàng
+                        @php
+                            $unreadChatsCount = \App\Models\ChatMessage::where('sender_type', 'customer')
+                                ->where('is_read_by_admin', false)
+                                ->distinct('session_id')
+                                ->count('session_id');
+                        @endphp
+                        @if($unreadChatsCount > 0)
+                            <span class="badge bg-danger ms-2" style="font-size: 0.7rem;">{{ $unreadChatsCount }}</span>
+                        @endif
+                    </a>
+                </li>
                 
                 <hr class="my-3" style="opacity: 0.2;">
                 

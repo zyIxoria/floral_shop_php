@@ -8,12 +8,14 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\CouponAdminController;
+use App\Http\Controllers\Admin\ChatAdminController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,6 +25,11 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product
 Route::post('/product/{product}/reviews', [ProductController::class, 'addReview'])
     ->middleware('auth')
     ->name('reviews.store');
+
+// Chat Widget Routes (Public so guests can chat as well)
+Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat/unread', [ChatController::class, 'getUnreadCount'])->name('chat.unread');
 
 // Cart Routes
 Route::middleware('auth')->group(function () {
@@ -82,6 +89,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Coupons Management
     Route::resource('coupons', CouponAdminController::class);
+
+    // Support Chat Management
+    Route::get('/chats', [ChatAdminController::class, 'index'])->name('chats.index');
+    Route::get('/chats/sessions', [ChatAdminController::class, 'getSessions'])->name('chats.sessions');
+    Route::get('/chats/messages/{sessionId}', [ChatAdminController::class, 'getMessages'])->name('chats.messages');
+    Route::post('/chats/send/{sessionId}', [ChatAdminController::class, 'sendMessage'])->name('chats.send');
 });
 
 // Auth Routes (Laravel Breeze)
