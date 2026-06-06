@@ -61,7 +61,7 @@
                             <label for="status" class="form-label fw-bold">Trạng thái <span class="text-danger">*</span></label>
                             <select class="form-select @error('status') is-invalid @enderror" id="status" name="status">
                                 <option value="active" {{ old('status', 'active') == 'active' ? 'selected' : '' }}>Hoạt động</option>
-                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Vô hiệu hóa</option>
+                                <option value="blocked" {{ old('status') == 'blocked' ? 'selected' : '' }}>Vô hiệu hóa</option>
                             </select>
                             @error('status')
                                 <div class="invalid-feedback">{{ $message }}</div>

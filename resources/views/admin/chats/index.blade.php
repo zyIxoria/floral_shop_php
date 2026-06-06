@@ -13,7 +13,7 @@
          <div class="col-lg-4 col-md-5 mb-4">
              <div class="card border-0 shadow-sm" style="height: calc(100vh - 180px); display: flex; flex-direction: column;">
                  <div class="card-header bg-white border-bottom py-3">
-                     <h5 class="fw-bold mb-2 text-primary d-flex align-items-center gap-2">
+                     <h5 class="fw-bold mb-2 text-white d-flex align-items-center gap-2">
                          <i class="bi bi-chat-left-text-fill"></i> Hội thoại hỗ trợ
                      </h5>
                      <div class="input-group">
@@ -56,14 +56,14 @@
                                  K
                              </div>
                              <div>
-                                 <h6 class="mb-0 fw-bold" id="active-user-name">Tên khách hàng</h6>
-                                 <small class="text-success d-flex align-items-center gap-1">
+                                 <h6 class="mb-0 fw-bold text-white" id="active-user-name" style="color: white !important;">Tên khách hàng</h6>
+                                 <small class="d-flex align-items-center gap-1" style="color: rgba(255, 255, 255, 0.9) !important; font-size: 0.75rem;">
                                      <span class="bg-success rounded-circle" style="width: 8px; height: 8px; display: inline-block;"></span>
                                      Đang trực tuyến
                                  </small>
                              </div>
                          </div>
-                         <div class="text-muted" id="active-session-id-display" style="font-size: 0.75rem;">
+                         <div id="active-session-id-display" style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.8) !important;">
                              ID: sess_xxxx
                          </div>
                      </div>
@@ -201,7 +201,7 @@
      function renderSessions() {
          const searchTerm = searchInput.value.trim().toLowerCase();
          const filteredSessions = sessionList.filter(function(session) {
-             const name = session.sender_name.toLowerCase();
+             const name = (session.customer_name || 'Khách vãng lai').toLowerCase();
              const msg = session.message.toLowerCase();
              const sessId = session.session_id.toLowerCase();
              return name.includes(searchTerm) || msg.includes(searchTerm) || sessId.includes(searchTerm);
@@ -224,13 +224,14 @@
              }
              unreadCountsTracker[session.session_id] = session.unread_count;
  
-             const initial = session.sender_name.charAt(0).toUpperCase();
-             const avatarBg = getAvatarColor(session.sender_name);
+             const displayName = session.customer_name || 'Khách vãng lai';
+             const initial = displayName.charAt(0).toUpperCase();
+             const avatarBg = getAvatarColor(displayName);
              const timeStr = new Date(session.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
  
              listHtml += `
                  <a href="#" class="list-group-item list-group-item-action py-3 px-3 session-item ${isActive ? 'active' : ''}" 
-                    onclick="selectSession('${session.session_id}', '${session.sender_name}'); return false;">
+                    onclick="selectSession('${session.session_id}', '${displayName.replace(/'/g, "\\'")}'); return false;">
                      <div class="d-flex align-items-center justify-content-between mb-1">
                          <div class="d-flex align-items-center gap-2">
                              <div class="d-flex align-items-center justify-content-center rounded-circle fw-bold text-white" 
@@ -238,7 +239,7 @@
                                  ${initial}
                              </div>
                              <div>
-                                 <strong class="mb-0 text-dark" style="font-size: 0.88rem;">${session.sender_name}</strong>
+                                 <strong class="mb-0 text-dark" style="font-size: 0.88rem;">${displayName}</strong>
                                  ${session.session_id.startsWith('user_') ? '<span class="badge bg-secondary ms-1" style="font-size: 0.6rem;">Thành viên</span>' : '<span class="badge bg-light text-muted border ms-1" style="font-size: 0.6rem;">Khách</span>'}
                              </div>
                          </div>

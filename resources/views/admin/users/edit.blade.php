@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Chỉnh sửa Khách hàng</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Chỉnh sửa Khách hàng</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
@@ -73,7 +73,7 @@
                                 <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>
                                     Hoạt động
                                 </option>
-                                <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>
+                                <option value="blocked" {{ old('status', $user->status) == 'blocked' ? 'selected' : '' }}>
                                     Vô hiệu hóa
                                 </option>
                             </select>
@@ -135,4 +135,49 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status');
+    const fieldsToToggle = [
+        document.getElementById('name'),
+        document.getElementById('email'),
+        document.getElementById('phone'),
+        document.getElementById('role'),
+        document.getElementById('password')
+    ];
+
+    function updateFieldsState() {
+        const isBlocked = statusSelect.value === 'blocked';
+        fieldsToToggle.forEach(field => {
+            if (field) {
+                field.disabled = isBlocked;
+                if (isBlocked) {
+                    field.classList.add('bg-light');
+                } else {
+                    field.classList.remove('bg-light');
+                }
+            }
+        });
+    }
+
+    // Initial check on load
+    updateFieldsState();
+
+    // Event listener for changes
+    statusSelect.addEventListener('change', updateFieldsState);
+
+    // Enable before submit so data gets posted
+    const form = statusSelect.closest('form');
+    if (form) {
+        form.addEventListener('submit', function() {
+            fieldsToToggle.forEach(field => {
+                if (field) {
+                    field.disabled = false;
+                }
+            });
+        });
+    }
+});
+</script>
 @endsection

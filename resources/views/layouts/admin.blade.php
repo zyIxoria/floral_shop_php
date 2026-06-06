@@ -46,7 +46,7 @@
         }
         
         .admin-sidebar .nav-link.active {
-            background: linear-gradient(90deg, var(--primary-color), #ff85c0);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
             color: white !important;
             font-weight: 600;
         }
@@ -127,6 +127,13 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                
+                <!-- Statistics -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.statistics') }}" class="nav-link {{ request()->routeIs('admin.statistics') ? 'active' : '' }}">
+                        <i class="bi bi-graph-up-arrow"></i> Thống kê
                     </a>
                 </li>
                 

@@ -28,6 +28,16 @@ class AuthenticatedSessionController extends Controller
                 ->withErrors(['email' => 'Email hoặc mật khẩu không đúng.']);
         }
 
+        // Kiểm tra tài khoản có bị vô hiệu hóa/block không
+        if (Auth::user()->status === 'blocked') {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => 'Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ với ban quản trị.']);
+        }
+
         $request->session()->regenerate();
 
         return redirect()->intended(route('home'));

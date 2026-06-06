@@ -87,10 +87,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-bottom">
+                <div class="card-header border-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 fw-bold">Đơn hàng gần đây</h5>
-                        <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-outline-primary">
+                        <h5 class="mb-0 fw-bold text-white">Đơn hàng gần đây</h5>
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-outline-light">
                             Xem tất cả <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>

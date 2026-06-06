@@ -14,7 +14,7 @@
             <!-- Order Info -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Thông tin đơn hàng</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Thông tin đơn hàng</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -45,7 +45,7 @@
             <!-- Order Items -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Chi tiết sản phẩm</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Chi tiết sản phẩm</h5>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -114,7 +114,7 @@
         <div class="col-md-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Trạng thái đơn hàng</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Trạng thái đơn hàng</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">

@@ -41,6 +41,13 @@
  
          foreach ($sessions as $session) {
              $session->unread_count = $unreadCounts[$session->session_id] ?? 0;
+ 
+             // Get the customer's name for this session (from the latest customer message)
+             $customerMessage = ChatMessage::where('session_id', $session->session_id)
+                 ->where('sender_type', 'customer')
+                 ->orderBy('created_at', 'desc')
+                 ->first();
+             $session->customer_name = $customerMessage ? $customerMessage->sender_name : 'Khách vãng lai';
          }
  
          return response()->json([

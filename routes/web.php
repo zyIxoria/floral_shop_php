@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\CouponAdminController;
 use App\Http\Controllers\Admin\ChatAdminController;
+use App\Http\Controllers\Admin\StatisticsController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -74,6 +75,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Statistics
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
     
     // Products Management
     Route::resource('products', ProductAdminController::class);

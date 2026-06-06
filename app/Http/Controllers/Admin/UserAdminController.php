@@ -51,7 +51,7 @@ class UserAdminController extends Controller
             ],
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:customer,admin',
-            'status' => 'required|in:active,inactive',
+            'status' => 'required|in:active,blocked',
             'password' => 'required|string|min:8|confirmed',
         ], [
             'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
@@ -87,7 +87,7 @@ class UserAdminController extends Controller
             ],
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:customer,admin',
-            'status' => 'required|in:active,inactive',
+            'status' => 'required|in:active,blocked',
             'password' => 'nullable|string|min:8|confirmed',
         ], [
             'email.regex' => 'Email phải đúng định dạng và có đuôi tên miền hợp lệ (ví dụ: .com, .vn).',
@@ -117,7 +117,7 @@ class UserAdminController extends Controller
 
     public function block(User $user)
     {
-        $user->update(['status' => 'inactive']);
+        $user->update(['status' => 'blocked']);
         return back()->with('success', 'User blocked');
     }
 
