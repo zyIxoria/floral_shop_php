@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
     Route::get('/profile/order/{order}', [ProfileController::class, 'orderDetail'])->name('profile.orderDetail');
+    Route::post('/profile/order/{order}/cancel', [ProfileController::class, 'cancelOrder'])->name('profile.order.cancel');
     Route::get('/profile/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
 });
 

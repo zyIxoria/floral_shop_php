@@ -137,10 +137,6 @@ public/js/cart.js
 public/js/checkout.js
 ```
 
-Vì chưa có `vite.config.js`, bạn không cần chạy `npm install` hoặc `npm run build` để mở website. Chỉ cần các file trong `public` tồn tại là giao diện chạy được.
-
-Nếu sau này muốn chuyển sang Vite, cần bổ sung `vite.config.js` và đổi layout sang `@vite(...)`.
-
 ## Kiểm tra sau cài đặt
 
 Chạy các lệnh sau:
@@ -149,17 +145,6 @@ Chạy các lệnh sau:
 php artisan about --only=environment
 php artisan route:list
 ```
-
-Bạn nên thấy Laravel boot được và danh sách route hiển thị bình thường.
-
-## Lỗi thường gặp
-
-Không nhận lệnh `php`:
-
-- Kiểm tra PHP đã được thêm vào `PATH`.
-- Với Laragon, mở Terminal từ Laragon hoặc thêm thư mục `C:\laragon\bin\php\...\` vào `PATH`.
-
-Không kết nối được database:
 
 ```bash
 php artisan config:clear
@@ -195,3 +180,5 @@ Trong đó:
 - `resources/views`: Blade views
 - `public`: entrypoint, CSS/JS tĩnh, ảnh QR thanh toán
 - `routes/web.php`: routes chính của website
+
+

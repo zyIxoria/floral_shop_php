@@ -63,4 +63,21 @@ class ProfileController extends Controller
         $wishlists = auth()->user()->wishlists()->with('product')->paginate(12);
         return view('profile.wishlist', compact('wishlists'));
     }
+
+    public function cancelOrder($id, \App\Services\OrderService $orderService)
+    {
+        $order = auth()->user()->orders()->findOrFail($id);
+
+        if ($order->status === 'delivered') {
+            return back()->with('error', 'Không thể hủy đơn hàng đã giao thành công.');
+        }
+
+        if ($order->status === 'cancelled') {
+            return back()->with('error', 'Đơn hàng này đã được hủy trước đó.');
+        }
+
+        $orderService->cancelOrder($order);
+
+        return back()->with('success', 'Hủy đơn hàng thành công, số lượng sản phẩm đã được khôi phục.');
+    }
 }

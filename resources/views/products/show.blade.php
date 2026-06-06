@@ -47,11 +47,11 @@
             <!-- Price -->
             <div class="mb-4">
                 @if($product->isOnSale())
-                    <span class="display-6 text-danger fw-bold">{{ number_format($product->sale_price) }}đ</span>
-                    <span class="text-muted text-decoration-line-through">{{ number_format($product->price) }}đ</span>
+                    <span class="display-6 text-danger fw-bold price-amount" data-vnd="{{ $product->sale_price }}">{{ number_format($product->sale_price) }}đ</span>
+                    <span class="text-muted text-decoration-line-through price-amount" data-vnd="{{ $product->price }}">{{ number_format($product->price) }}đ</span>
                     <span class="badge bg-danger">-{{ $product->getDiscount() }}%</span>
                 @else
-                    <span class="display-6 text-primary fw-bold">{{ number_format($product->price) }}đ</span>
+                    <span class="display-6 text-primary fw-bold price-amount" data-vnd="{{ $product->price }}">{{ number_format($product->price) }}đ</span>
                 @endif
             </div>
 
@@ -184,7 +184,7 @@
                     <a href="{{ route('products.show', $related->slug) }}" class="text-decoration-none">
                         <h6 class="fw-bold card-title small">{{ Str::limit($related->name, 20) }}</h6>
                     </a>
-                    <p class="text-primary fw-bold small">{{ number_format($related->getCurrentPrice()) }}đ</p>
+                    <p class="text-primary fw-bold small price-amount" data-vnd="{{ $related->getCurrentPrice() }}">{{ number_format($related->getCurrentPrice()) }}đ</p>
                     <form action="{{ route('cart.add') }}" method="POST" class="d-grid">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $related->id }}">

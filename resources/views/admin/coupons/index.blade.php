@@ -44,21 +44,21 @@
                                         <strong>{{ $coupon->code }}</strong>
                                     </td>
                                     <td>
-                                        @if($coupon->type == 'percentage')
+                                        @if($coupon->discount_type == 'percent')
                                             <span class="badge bg-primary">Phần trăm</span>
                                         @else
                                             <span class="badge bg-info">Cố định</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if($coupon->type == 'percentage')
-                                            <strong>{{ $coupon->value }}%</strong>
+                                        @if($coupon->discount_type == 'percent')
+                                            <strong>{{ number_format($coupon->discount_value, 0) }}%</strong>
                                         @else
-                                            <strong>{{ number_format($coupon->value, 0, ',', '.') }} ₫</strong>
+                                            <strong>{{ number_format($coupon->discount_value, 0, ',', '.') }} ₫</strong>
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="badge bg-secondary">{{ $coupon->used_count ?? 0 }}/{{ $coupon->max_uses ?? 'Không giới hạn' }}</span>
+                                        <span class="badge bg-secondary">{{ $coupon->used_count ?? 0 }}/{{ $coupon->usage_limit ?? 'Không giới hạn' }}</span>
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($coupon->start_date)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($coupon->end_date)->format('d/m/Y') }}</td>

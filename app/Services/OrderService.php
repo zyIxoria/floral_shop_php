@@ -86,4 +86,35 @@ class OrderService
 
         return $order;
     }
+
+    public function cancelOrder(Order $order)
+    {
+        // Update order status
+        $order->update(['status' => 'cancelled']);
+
+        // Update payment status
+        if ($order->payment) {
+            $order->payment->update(['status' => 'failed']);
+        }
+
+        // Restore product stock
+        foreach ($order->items as $item) {
+            if ($item->product) {
+                $item->product->increment('stock', $item->quantity);
+            }
+        }
+
+        // Restore coupon usage
+        if ($order->couponUsage) {
+            $coupon = $order->couponUsage->coupon;
+            if ($coupon) {
+                if ($coupon->used_count > 0) {
+                    $coupon->decrement('used_count');
+                }
+            }
+            $order->couponUsage->delete();
+        }
+
+        return $order;
+    }
 }

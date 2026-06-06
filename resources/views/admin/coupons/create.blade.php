@@ -33,36 +33,49 @@
                         
                         <!-- Coupon Type -->
                         <div class="mb-3">
-                            <label for="type" class="form-label fw-bold">Loại giảm giá <span class="text-danger">*</span></label>
-                            <select class="form-select @error('type') is-invalid @enderror" id="type" name="type" onchange="updateValueLabel()">
-                                <option value="percentage" {{ old('type') == 'percentage' ? 'selected' : '' }}>Phần trăm (%)</option>
-                                <option value="fixed" {{ old('type') == 'fixed' ? 'selected' : '' }}>Cố định (₫)</option>
+                            <label for="discount_type" class="form-label fw-bold">Loại giảm giá <span class="text-danger">*</span></label>
+                            <select class="form-select @error('discount_type') is-invalid @enderror" id="discount_type" name="discount_type" onchange="updateValueLabel()">
+                                <option value="percent" {{ old('discount_type') == 'percent' ? 'selected' : '' }}>Phần trăm (%)</option>
+                                <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Cố định (₫)</option>
                             </select>
-                            @error('type')
+                            @error('discount_type')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         
                         <!-- Coupon Value -->
                         <div class="mb-3">
-                            <label for="value" class="form-label fw-bold">Giá trị <span class="text-danger">*</span></label>
+                            <label for="discount_value" class="form-label fw-bold">Giá trị <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="number" class="form-control @error('value') is-invalid @enderror" 
-                                       id="value" name="value" value="{{ old('value') }}" placeholder="0" step="1">
+                                <input type="number" class="form-control @error('discount_value') is-invalid @enderror" 
+                                       id="discount_value" name="discount_value" value="{{ old('discount_value') }}" placeholder="0" step="1">
                                 <span class="input-group-text" id="valueUnit">%</span>
                             </div>
-                            @error('value')
+                            @error('discount_value')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Minimum Order Value -->
+                        <div class="mb-3">
+                            <label for="min_order_value" class="form-label fw-bold">Giá trị đơn hàng tối thiểu <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control @error('min_order_value') is-invalid @enderror" 
+                                       id="min_order_value" name="min_order_value" value="{{ old('min_order_value', 0) }}" placeholder="0" min="0">
+                                <span class="input-group-text">₫</span>
+                            </div>
+                            @error('min_order_value')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         
                         <!-- Max Uses -->
                         <div class="mb-3">
-                            <label for="max_uses" class="form-label fw-bold">Số lượt sử dụng tối đa</label>
-                            <input type="number" class="form-control @error('max_uses') is-invalid @enderror" 
-                                   id="max_uses" name="max_uses" value="{{ old('max_uses') }}" placeholder="Để trống = không giới hạn" min="1">
+                            <label for="usage_limit" class="form-label fw-bold">Số lượt sử dụng tối đa</label>
+                            <input type="number" class="form-control @error('usage_limit') is-invalid @enderror" 
+                                   id="usage_limit" name="usage_limit" value="{{ old('usage_limit') }}" placeholder="Để trống = không giới hạn" min="1">
                             <small class="text-muted">Để trống nếu không có giới hạn</small>
-                            @error('max_uses')
+                            @error('usage_limit')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -132,9 +145,9 @@
 @push('scripts')
 <script>
     function updateValueLabel() {
-        const type = document.getElementById('type').value;
+        const type = document.getElementById('discount_type').value;
         const unit = document.getElementById('valueUnit');
-        unit.textContent = type === 'percentage' ? '%' : '₫';
+        unit.textContent = type === 'percent' ? '%' : '₫';
     }
 </script>
 @endpush

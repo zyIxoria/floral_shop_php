@@ -24,10 +24,10 @@
         
         <div class="mb-3 mt-auto">
             @if($product->isOnSale())
-                <span class="h6 text-danger fw-bold mb-0">{{ number_format($product->sale_price) }}đ</span>
-                <span class="text-muted text-decoration-line-through small d-block">{{ number_format($product->price) }}đ</span>
+                <span class="h6 text-danger fw-bold mb-0 price-amount" data-vnd="{{ $product->sale_price }}">{{ number_format($product->sale_price) }}đ</span>
+                <span class="text-muted text-decoration-line-through small d-block price-amount" data-vnd="{{ $product->price }}">{{ number_format($product->price) }}đ</span>
             @else
-                <span class="h6 text-primary fw-bold mb-0">{{ number_format($product->price) }}đ</span>
+                <span class="h6 text-primary fw-bold mb-0 price-amount" data-vnd="{{ $product->price }}">{{ number_format($product->price) }}đ</span>
                 <span class="small d-block" style="visibility: hidden;">Placeholder</span>
             @endif
         </div>

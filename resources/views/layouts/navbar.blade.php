@@ -7,7 +7,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Currency Switcher -->
+                <li class="nav-item dropdown me-2">
+                    <a class="nav-link dropdown-toggle py-1 px-2 border rounded d-flex align-items-center gap-1" href="#" id="currencyDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.9rem;">
+                        <i class="bi bi-currency-exchange"></i> <span id="currentCurrencyLabel">VND (đ)</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="changeCurrency('VND'); return false;">VND (đ)</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="changeCurrency('USD'); return false;">USD ($)</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">Trang Chủ</a>
                 </li>

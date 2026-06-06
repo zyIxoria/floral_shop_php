@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ number_format($item->product->getCurrentPrice()) }}đ</td>
+                            <td><span class="price-amount" data-vnd="{{ $item->product->getCurrentPrice() }}">{{ number_format($item->product->getCurrentPrice()) }}đ</span></td>
                             <td>
                                 <form action="{{ route('cart.update', $item->id) }}" method="POST">
                                     @csrf
@@ -48,7 +48,7 @@
                                     </div>
                                 </form>
                             </td>
-                            <td class="fw-bold">{{ number_format($item->getTotal()) }}đ</td>
+                            <td class="fw-bold"><span class="price-amount" data-vnd="{{ $item->getTotal() }}">{{ number_format($item->getTotal()) }}đ</span></td>
                             <td>
                                 <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="d-inline">
                                     @csrf
@@ -78,7 +78,7 @@
 
                     <div class="d-flex justify-content-between mb-2">
                         <span>Tạm Tính:</span>
-                        <span class="fw-bold">{{ number_format($cart->getTotalPrice()) }}đ</span>
+                        <span class="fw-bold price-amount" data-vnd="{{ $cart->getTotalPrice() }}">{{ number_format($cart->getTotalPrice()) }}đ</span>
                     </div>
 
                     <div class="mb-4 pb-4 border-bottom">
@@ -90,12 +90,12 @@
 
                     <div class="d-flex justify-content-between mb-4 pb-3 border-bottom">
                         <span>Giảm Giá:</span>
-                        <span class="fw-bold text-danger" id="discountAmount">0đ</span>
+                        <span class="fw-bold text-danger price-amount" id="discountAmount" data-vnd="0">0đ</span>
                     </div>
 
                     <div class="d-flex justify-content-between mb-4">
                         <span class="fw-bold">Tổng Cộng:</span>
-                        <span class="h5 text-primary fw-bold" id="totalAmount">{{ number_format($cart->getTotalPrice()) }}đ</span>
+                        <span class="h5 text-primary fw-bold price-amount" id="totalAmount" data-vnd="{{ $cart->getTotalPrice() }}">{{ number_format($cart->getTotalPrice()) }}đ</span>
                     </div>
 
                     @if($cart->items->count() > 0)
@@ -123,8 +123,22 @@ function applyCoupon() {
 
     axios.post('{{ route("checkout.applyCoupon") }}', { coupon_code: code })
         .then(response => {
-            document.getElementById('discountAmount').textContent = response.data.discount.toLocaleString('vi-VN') + 'đ';
-            document.getElementById('totalAmount').textContent = response.data.total.toLocaleString('vi-VN') + 'đ';
+            let discount = response.data.discount;
+            let total = response.data.total;
+            
+            // Update data attributes for dynamic switcher
+            document.getElementById('discountAmount').setAttribute('data-vnd', discount);
+            document.getElementById('totalAmount').setAttribute('data-vnd', total);
+
+            let currentCurrency = localStorage.getItem('currency') || 'VND';
+            if (currentCurrency === 'USD') {
+                let rate = parseFloat(localStorage.getItem('usd_rate') || 0.000041);
+                document.getElementById('discountAmount').textContent = '$' + (discount * rate).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('totalAmount').textContent = '$' + (total * rate).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            } else {
+                document.getElementById('discountAmount').textContent = discount.toLocaleString('vi-VN') + 'đ';
+                document.getElementById('totalAmount').textContent = total.toLocaleString('vi-VN') + 'đ';
+            }
             alert('Áp dụng mã khuyến mại thành công');
         })
         .catch(error => {
