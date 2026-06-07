@@ -5,7 +5,11 @@
 @section('content')
 @php
     $cartTotal = auth()->user()->cart->getTotalPrice();
+    $discountAmount = $discount ?? 0;
+    $finalTotal = max(0, $cartTotal - $discountAmount);
     $formattedCartTotal = number_format($cartTotal) . ' VND';
+    $formattedDiscount = number_format($discountAmount) . ' VND';
+    $formattedFinalTotal = number_format($finalTotal) . ' VND';
 @endphp
 
 <div class="container-fluid px-4 py-5">
@@ -19,6 +23,9 @@
 
                     <form action="{{ route('checkout.store') }}" method="POST" id="checkoutForm">
                         @csrf
+                        @if($appliedCoupon)
+                            <input type="hidden" name="coupon_id" value="{{ $appliedCoupon->id }}">
+                        @endif
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Họ Tên *</label>
@@ -86,7 +93,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="payment_method" id="bank_transfer" value="bank_transfer">
                                 <label class="form-check-label fw-bold" for="bank_transfer">
@@ -110,22 +117,13 @@
                                             <strong class="fs-5 ms-2 text-primary">225515233865</strong>
                                         </div>
                                         <p class="mb-2 text-muted">Số tiền cần thanh toán</p>
-                                        <div class="payment-amount">{{ $formattedCartTotal }}</div>
+                                        <div class="payment-amount">{{ $formattedFinalTotal }}</div>
                                         <div class="payment-note mt-3">
                                             Nội dung chuyển khoản:
                                             <strong>FLORAL-{{ auth()->id() }}-{{ now()->format('His') }}</strong>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment_method" id="vnpay" value="vnpay">
-                                <label class="form-check-label fw-bold" for="vnpay">
-                                    Thanh Toán Qua VNPay
-                                </label>
                             </div>
                         </div>
 
@@ -157,6 +155,13 @@
                         <span class="fw-bold">{{ $formattedCartTotal }}</span>
                     </div>
 
+                    @if($discountAmount > 0)
+                    <div class="d-flex justify-content-between mb-2 text-danger">
+                        <span>Giảm Giá:</span>
+                        <span class="fw-bold">-{{ $formattedDiscount }}</span>
+                    </div>
+                    @endif
+
                     <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
                         <span>Phí Vận Chuyển:</span>
                         <span class="fw-bold">Miễn Phí</span>
@@ -164,7 +169,7 @@
 
                     <div class="d-flex justify-content-between">
                         <span class="fw-bold">Tổng Cộng:</span>
-                        <span class="h5 text-primary fw-bold">{{ $formattedCartTotal }}</span>
+                        <span class="h5 text-primary fw-bold">{{ $formattedFinalTotal }}</span>
                     </div>
                 </div>
             </div>

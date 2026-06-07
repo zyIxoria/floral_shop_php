@@ -73,10 +73,10 @@
                                         <small class="text-muted">{{ $order->user->email ?? 'N/A' }}</small>
                                     </td>
                                     <td>
-                                        <span class="badge bg-secondary">{{ $order->items_count ?? 0 }} sp</span>
+                                        <span class="badge bg-secondary">{{ $order->items_sum_quantity ?? 0 }} sp</span>
                                     </td>
                                     <td>
-                                        <strong>{{ number_format($order->total_amount, 0, ',', '.') }} ₫</strong>
+                                        <strong>{{ number_format($order->total, 0, ',', '.') }} ₫</strong>
                                     </td>
                                     <td>
                                         @if($order->status == 'pending')

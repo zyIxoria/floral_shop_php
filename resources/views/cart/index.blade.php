@@ -83,19 +83,19 @@
 
                     <div class="mb-4 pb-4 border-bottom">
                         <form id="couponForm" class="d-flex gap-2">
-                            <input type="text" name="coupon_code" class="form-control form-control-sm" placeholder="Nhập mã khuyến mại">
+                            <input type="text" name="coupon_code" class="form-control form-control-sm" placeholder="Nhập mã khuyến mại" value="{{ $appliedCoupon ? $appliedCoupon->code : '' }}">
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="applyCoupon()">Áp Dụng</button>
                         </form>
                     </div>
 
                     <div class="d-flex justify-content-between mb-4 pb-3 border-bottom">
                         <span>Giảm Giá:</span>
-                        <span class="fw-bold text-danger price-amount" id="discountAmount" data-vnd="0">0đ</span>
+                        <span class="fw-bold text-danger price-amount" id="discountAmount" data-vnd="{{ $discount }}">{{ $discount > 0 ? number_format($discount) . 'đ' : '0đ' }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between mb-4">
                         <span class="fw-bold">Tổng Cộng:</span>
-                        <span class="h5 text-primary fw-bold price-amount" id="totalAmount" data-vnd="{{ $cart->getTotalPrice() }}">{{ number_format($cart->getTotalPrice()) }}đ</span>
+                        <span class="h5 text-primary fw-bold price-amount" id="totalAmount" data-vnd="{{ max(0, $cart->getTotalPrice() - $discount) }}">{{ number_format(max(0, $cart->getTotalPrice() - $discount)) }}đ</span>
                     </div>
 
                     @if($cart->items->count() > 0)

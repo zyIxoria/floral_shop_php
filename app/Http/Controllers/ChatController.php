@@ -61,7 +61,7 @@
          } elseif (str_contains($lowerText, 'thiết kế riêng') || str_contains($lowerText, 'đặt thiết kế') || str_contains($lowerText, 'hoa theo yêu cầu')) {
              $autoReply = "Chúng tôi rất sẵn lòng thiết kế hoa theo yêu cầu! Bạn vui lòng cung cấp thông tin về dịp tặng (sinh nhật, khai trương, kỷ niệm...), ngân sách dự kiến, màu sắc hoặc loài hoa yêu thích để Floral Shop tư vấn chi tiết nhất cho bạn nhé! 💐🎨";
          } elseif (str_contains($lowerText, 'thanh toán') || str_contains($lowerText, 'phương thức thanh toán')) {
-             $autoReply = "Floral Shop hỗ trợ nhiều hình thức thanh toán đa dạng: Thanh toán khi nhận hàng (COD), Chuyển khoản ngân hàng trực tiếp, hoặc ví điện tử VNPay qua cổng thanh toán bảo mật của chúng tôi. 💳✨";
+             $autoReply = "Floral Shop hỗ trợ các hình thức thanh toán thuận tiện: Thanh toán khi nhận hàng (COD) hoặc Chuyển khoản ngân hàng trực tiếp (Chuyển khoản giả lập). 💳✨";
          } elseif (str_contains($lowerText, 'bảo hành') || str_contains($lowerText, 'đổi trả') || str_contains($lowerText, 'hoàn tiền')) {
              $autoReply = "Để khách hàng hoàn toàn yên tâm, Floral Shop cam kết hoàn tiền hoặc đổi sản phẩm mới miễn phí 100% nếu hoa bị dập nát, héo úa hoặc không đúng mẫu khi giao đến tay khách hàng. Bạn chỉ cần chụp ảnh hoa nhận được và gửi ngay cho shop hỗ trợ nhé! 🛡️❤️";
          }

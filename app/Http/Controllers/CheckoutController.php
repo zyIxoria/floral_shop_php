@@ -22,7 +22,22 @@ class CheckoutController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return view('checkout.index', compact('user'));
+        $cart = $user->cart;
+
+        $appliedCoupon = null;
+        $discount = 0;
+        $couponCode = session('applied_coupon_code');
+
+        if ($couponCode && $cart && !$cart->items->isEmpty()) {
+            $appliedCoupon = $this->couponService->validateCoupon($couponCode, $cart->getTotalPrice());
+            if ($appliedCoupon) {
+                $discount = $appliedCoupon->calculateDiscount($cart->getTotalPrice());
+            } else {
+                session()->forget('applied_coupon_code');
+            }
+        }
+
+        return view('checkout.index', compact('user', 'appliedCoupon', 'discount'));
     }
 
     public function applyCoupon(Request $request)
@@ -45,6 +60,8 @@ class CheckoutController extends Controller
 
         $discount = $coupon->calculateDiscount($cart->getTotalPrice());
 
+        session(['applied_coupon_code' => $request->coupon_code]);
+
         return response()->json([
             'success' => true,
             'coupon_id' => $coupon->id,
@@ -62,7 +79,7 @@ class CheckoutController extends Controller
             'address_city' => 'required|string',
             'shipping_phone' => ['required', 'string', 'regex:/^(03|05|07|08|09)[0-9]{8}$/'],
             'shipping_email' => 'required|email',
-            'payment_method' => 'required|in:cod,vnpay,bank_transfer',
+            'payment_method' => 'required|in:cod,bank_transfer',
             'coupon_id' => 'nullable|exists:coupons,id',
             'notes' => 'nullable|string',
         ], [
@@ -79,10 +96,7 @@ class CheckoutController extends Controller
         try {
             $order = $this->orderService->createOrder($validated, $validated['coupon_id'] ?? null);
 
-            if ($validated['payment_method'] === 'vnpay') {
-                // VNPay integration
-                return redirect()->route('payment.vnpay', $order);
-            }
+            session()->forget('applied_coupon_code');
 
             return redirect()->route('checkout.success', $order)
                            ->with('success', 'Order created successfully');

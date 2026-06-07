@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Chỉnh sửa: {{ $product->name }}</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Chỉnh sửa: {{ $product->name }}</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
@@ -76,6 +76,43 @@
                             </div>
                             <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB) - Bỏ trống nếu không muốn thay đổi</small>
                             @error('image')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <!-- Description Images (Gallery) -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Hình ảnh mô tả hiện tại</label>
+                            @if($product->images->count() > 0)
+                                <div class="row g-2 mb-3">
+                                    @foreach($product->images as $img)
+                                        <div class="col-6 col-md-3 text-center position-relative">
+                                            <div class="border rounded p-1 bg-white h-100 d-flex flex-column justify-content-between">
+                                                <img src="{{ Storage::url($img->image) }}" alt="Gallery Image" class="img-fluid rounded" style="height: 100px; object-fit: cover;">
+                                                <div class="form-check mt-2 d-flex justify-content-center">
+                                                    <input class="form-check-input me-1" type="checkbox" name="delete_images[]" value="{{ $img->id }}" id="del_img_{{ $img->id }}">
+                                                    <label class="form-check-label small text-danger" for="del_img_{{ $img->id }}">
+                                                        Xóa ảnh này
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="alert alert-warning py-2 mb-3 small">Sản phẩm hiện chưa có hình ảnh mô tả nào. Bạn phải tải lên ít nhất 3 ảnh!</div>
+                            @endif
+
+                            <label for="description_images" class="form-label fw-bold">Thêm hình ảnh mô tả mới (Tối thiểu 3 hình ảnh mô tả tổng cộng)</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control @error('description_images') is-invalid @enderror @error('description_images.*') is-invalid @enderror" 
+                                       id="description_images" name="description_images[]" accept="image/*" multiple>
+                            </div>
+                            <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB/ảnh). Sản phẩm phải giữ lại ít nhất 3 hình ảnh mô tả.</small>
+                            @error('description_images')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            @error('description_images.*')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>

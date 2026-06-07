@@ -93,16 +93,16 @@
                                 <span>Phí vận chuyển:</span>
                                 <strong>{{ number_format($order->shipping_fee ?? 0, 0, ',', '.') }} ₫</strong>
                             </div>
-                            @if($order->coupon_discount ?? 0)
+                            @if($order->discount ?? 0)
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Giảm giá:</span>
-                                    <strong class="text-success">-{{ number_format($order->coupon_discount, 0, ',', '.') }} ₫</strong>
+                                    <strong class="text-success">-{{ number_format($order->discount, 0, ',', '.') }} ₫</strong>
                                 </div>
                             @endif
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <span style="font-size: 1.1rem; font-weight: bold;">Tổng cộng:</span>
-                                <strong style="font-size: 1.1rem; color: #ff69b4;">{{ number_format($order->total_amount, 0, ',', '.') }} ₫</strong>
+                                <strong style="font-size: 1.1rem; color: #ff69b4;">{{ number_format($order->total, 0, ',', '.') }} ₫</strong>
                             </div>
                         </div>
                     </div>

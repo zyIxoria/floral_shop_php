@@ -122,31 +122,68 @@
             <h4 class="fw-bold mb-4">Đánh Giá Từ Khách Hàng</h4>
 
             @auth
-            <!-- Add Review Form -->
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <h6 class="fw-bold mb-3">Viết Đánh Giá</h6>
-                    <form action="{{ route('reviews.store', $product) }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="form-label">Đánh Giá</label>
-                            <div>
-                                @for($i = 1; $i <= 5; $i++)
-                                    <input type="radio" name="rating" value="{{ $i }}" id="rating{{ $i }}">
-                                    <label for="rating{{ $i }}" class="form-check-label">
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                    </label>
-                                @endfor
-                            </div>
+                @php
+                    $user = auth()->user();
+                    $ordersOfProduct = \App\Models\Order::where('orders.user_id', $user->id)
+                        ->where('orders.status', 'delivered')
+                        ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+                        ->where('order_items.product_id', $product->id)
+                        ->select('orders.id')
+                        ->pluck('id');
+                    
+                    $reviewedOrderIds = \App\Models\Review::where('user_id', $user->id)
+                        ->where('product_id', $product->id)
+                        ->whereIn('order_id', $ordersOfProduct)
+                        ->pluck('order_id');
+                        
+                    $isEligibleToReview = $ordersOfProduct->diff($reviewedOrderIds)->isNotEmpty();
+                @endphp
+
+                @if($isEligibleToReview)
+                    <!-- Add Review Form -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3">Viết Đánh Giá</h6>
+                            <form action="{{ route('reviews.store', $product) }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label class="form-label">Đánh Giá</label>
+                                    <div>
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <input type="radio" name="rating" value="{{ $i }}" id="rating{{ $i }}">
+                                            <label for="rating{{ $i }}" class="form-check-label">
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            </label>
+                                        @endfor
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Bình Luận</label>
+                                    <textarea name="comment" class="form-control" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Gửi Đánh Giá</button>
+                            </form>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Bình Luận</label>
-                            <textarea name="comment" class="form-control" rows="4" required></textarea>
+                    </div>
+                @else
+                    <div class="card border-0 shadow-sm mb-4 bg-light">
+                        <div class="card-body text-center py-4">
+                            <i class="bi bi-info-circle text-primary" style="font-size: 24px;"></i>
+                            @if($ordersOfProduct->isEmpty())
+                                <p class="text-muted mt-2 mb-0">Bạn chỉ được đánh giá sản phẩm sau khi đã mua sản phẩm này và đơn hàng được giao thành công.</p>
+                            @else
+                                <p class="text-muted mt-2 mb-0">Bạn đã hoàn thành đánh giá cho tất cả các lượt mua sản phẩm này. Hãy tiếp tục mua hàng để có thêm lượt đánh giá nhé!</p>
+                            @endif
                         </div>
-                        <button type="submit" class="btn btn-primary">Gửi Đánh Giá</button>
-                    </form>
+                    </div>
+                @endif
+            @else
+                <div class="card border-0 shadow-sm mb-4 bg-light">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-person-lock text-muted" style="font-size: 24px;"></i>
+                        <p class="text-muted mt-2 mb-0">Vui lòng <a href="{{ route('login') }}" class="text-primary fw-bold text-decoration-none">Đăng nhập</a> để viết đánh giá cho sản phẩm.</p>
+                    </div>
                 </div>
-            </div>
             @endauth
 
             <!-- Reviews List -->

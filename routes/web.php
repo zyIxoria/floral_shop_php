@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChatController;
@@ -17,6 +16,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\CouponAdminController;
 use App\Http\Controllers\Admin\ChatAdminController;
 use App\Http\Controllers\Admin\StatisticsController;
+use App\Http\Controllers\Admin\ReviewAdminController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -47,10 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('checkout.applyCoupon');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-
-    // Payment Routes
-    Route::get('/payment/vnpay/{order}', [PaymentController::class, 'vnpay'])->name('payment.vnpay');
-    Route::get('/payment/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpay.return');
 });
 
 // Wishlist Routes
@@ -99,6 +95,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/chats/sessions', [ChatAdminController::class, 'getSessions'])->name('chats.sessions');
     Route::get('/chats/messages/{sessionId}', [ChatAdminController::class, 'getMessages'])->name('chats.messages');
     Route::post('/chats/send/{sessionId}', [ChatAdminController::class, 'sendMessage'])->name('chats.send');
+
+    // Reviews Management
+    Route::get('/reviews', [ReviewAdminController::class, 'index'])->name('reviews.index');
+    Route::delete('/reviews/{review}', [ReviewAdminController::class, 'destroy'])->name('reviews.destroy');
 });
 
 // Auth Routes (Laravel Breeze)

@@ -8,17 +8,33 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     protected $cartService;
+    protected $couponService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, \App\Services\CouponService $couponService)
     {
         $this->cartService = $cartService;
+        $this->couponService = $couponService;
         $this->middleware('auth');
     }
 
     public function index()
     {
         $cart = $this->cartService->getOrCreateCart();
-        return view('cart.index', compact('cart'));
+        
+        $appliedCoupon = null;
+        $discount = 0;
+        $couponCode = session('applied_coupon_code');
+
+        if ($couponCode && $cart && !$cart->items->isEmpty()) {
+            $appliedCoupon = $this->couponService->validateCoupon($couponCode, $cart->getTotalPrice());
+            if ($appliedCoupon) {
+                $discount = $appliedCoupon->calculateDiscount($cart->getTotalPrice());
+            } else {
+                session()->forget('applied_coupon_code');
+            }
+        }
+
+        return view('cart.index', compact('cart', 'appliedCoupon', 'discount'));
     }
 
     public function add(Request $request)

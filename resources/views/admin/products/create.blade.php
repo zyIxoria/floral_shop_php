@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 fw-bold">Tạo Sản phẩm mới</h5>
+                    <h5 class="mb-0 fw-bold text-white" style="color: white !important;">Tạo Sản phẩm mới</h5>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
@@ -65,6 +65,22 @@
                             </div>
                             <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB)</small>
                             @error('image')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <!-- Description Images (Gallery) -->
+                        <div class="mb-3">
+                            <label for="description_images" class="form-label fw-bold">Hình ảnh mô tả (Tối thiểu 3 hình ảnh) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="file" class="form-control @error('description_images') is-invalid @enderror @error('description_images.*') is-invalid @enderror" 
+                                       id="description_images" name="description_images[]" accept="image/*" multiple required>
+                            </div>
+                            <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB/ảnh). Vui lòng chọn ít nhất 3 hình ảnh.</small>
+                            @error('description_images')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+                            @error('description_images.*')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>

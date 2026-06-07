@@ -117,12 +117,18 @@
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="admin-sidebar text-white p-3">
-            <div class="d-flex align-items-center mb-4">
-                <i class="bi bi-flower1" style="font-size: 28px; margin-right: 10px;"></i>
-                <h5 class="fw-bold mb-0">Admin</h5>
-            </div>
+            <a href="{{ route('home') }}" class="d-flex align-items-center mb-4 text-decoration-none text-white">
+                <i class="bi bi-flower1" style="font-size: 28px; margin-right: 10px; color: white !important;"></i>
+                <h5 class="fw-bold mb-0 text-white" style="color: white !important;">Floral shop</h5>
+            </a>
             
             <ul class="nav flex-column">
+                <!-- Quay về trang chủ -->
+                <li class="nav-item mb-3">
+                    <a href="{{ route('home') }}" class="nav-link" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+                        <i class="bi bi-arrow-left"></i> Quay về trang chủ
+                    </a>
+                </li>
                 <!-- Dashboard -->
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -185,6 +191,13 @@
                         @if($unreadChatsCount > 0)
                             <span class="badge bg-danger ms-2" style="font-size: 0.7rem;">{{ $unreadChatsCount }}</span>
                         @endif
+                    </a>
+                </li>
+
+                <!-- Reviews -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.reviews.index') }}" class="nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
+                        <i class="bi bi-star"></i> Đánh giá
                     </a>
                 </li>
                 

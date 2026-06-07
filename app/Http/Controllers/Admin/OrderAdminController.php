@@ -22,7 +22,7 @@ class OrderAdminController extends Controller
         $search = request('search');
         $status = request('status');
 
-        $query = Order::with('user');
+        $query = Order::with('user')->withSum('items', 'quantity');
 
         if ($search) {
             $query->where('order_number', 'like', "%$search%")
@@ -35,7 +35,14 @@ class OrderAdminController extends Controller
 
         $orders = $query->latest()->paginate(15);
 
-        return view('admin.orders.index', compact('orders', 'search', 'status'));
+        $statusCounts = [
+            'pending' => Order::where('status', 'pending')->count(),
+            'confirmed' => Order::where('status', 'confirmed')->count(),
+            'shipped' => Order::where('status', 'shipped')->count(),
+            'delivered' => Order::where('status', 'delivered')->count(),
+        ];
+
+        return view('admin.orders.index', compact('orders', 'search', 'status', 'statusCounts'));
     }
 
     public function show(Order $order)
