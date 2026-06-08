@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Review;
 
 class DashboardController extends Controller
 {
@@ -21,6 +22,9 @@ class DashboardController extends Controller
         $totalOrders = Order::count();
         $totalUsers = User::where('role', 'customer')->count();
         $totalProducts = Product::count();
+        $totalReviews = Review::count();
+        $averageRating = round(Review::avg('rating') ?? 0, 1);
+        
         $recentOrders = Order::with('user')
                             ->latest()
                             ->limit(10)
@@ -31,6 +35,8 @@ class DashboardController extends Controller
             'totalOrders',
             'totalUsers',
             'totalProducts',
+            'totalReviews',
+            'averageRating',
             'recentOrders'
         ));
     }

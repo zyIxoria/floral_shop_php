@@ -45,7 +45,7 @@
                         </span>
                     </td>
                     <td>
-                        <div class="d-flex gap-1 justify-content-end">
+                        <div class="d-flex gap-2 align-items-center">
                             <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
                                 Chi Tiết
                             </button>

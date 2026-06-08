@@ -12,72 +12,85 @@
     <div class="row mb-4">
         <!-- Total Revenue -->
         <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <p class="text-muted mb-1">Doanh thu</p>
-                            <h3 class="fw-bold">{{ number_format($totalRevenue, 0, ',', '.') }} ₫</h3>
+                            <h3 class="fw-bold mb-0">{{ number_format($totalRevenue, 0, ',', '.') }} ₫</h3>
                         </div>
                         <div class="bg-success bg-opacity-10 p-3 rounded">
                             <i class="bi bi-cash-coin text-success" style="font-size: 24px;"></i>
                         </div>
                     </div>
-                    <small class="text-success"><i class="bi bi-arrow-up"></i> Từ các đơn hàng đã giao</small>
+                    <div class="mt-auto">
+                        <small class="text-success"><i class="bi bi-arrow-up"></i> Từ các đơn hàng đã giao</small>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Total Orders -->
         <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <p class="text-muted mb-1">Đơn hàng</p>
-                            <h3 class="fw-bold">{{ $totalOrders }}</h3>
+                            <h3 class="fw-bold mb-0">{{ $totalOrders }}</h3>
                         </div>
                         <div class="bg-info bg-opacity-10 p-3 rounded">
                             <i class="bi bi-bag-check text-info" style="font-size: 24px;"></i>
                         </div>
                     </div>
-                    <small class="text-info"><i class="bi bi-graph-up"></i> Tất cả các đơn hàng</small>
+                    <div class="mt-auto">
+                        <small class="text-info"><i class="bi bi-graph-up"></i> Tất cả các đơn hàng</small>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Total Users -->
         <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <p class="text-muted mb-1">Khách hàng</p>
-                            <h3 class="fw-bold">{{ $totalUsers }}</h3>
+                            <h3 class="fw-bold mb-0">{{ $totalUsers }}</h3>
                         </div>
                         <div class="bg-warning bg-opacity-10 p-3 rounded">
                             <i class="bi bi-people text-warning" style="font-size: 24px;"></i>
                         </div>
                     </div>
-                    <small class="text-warning"><i class="bi bi-person-plus"></i> Người dùng đã đăng ký</small>
+                    <div class="mt-auto">
+                        <small class="text-warning"><i class="bi bi-person-plus"></i> Người dùng đã đăng ký</small>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Total Products -->
         <div class="col-md-6 col-lg-3 mb-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <p class="text-muted mb-1">Sản phẩm</p>
-                            <h3 class="fw-bold">{{ $totalProducts }}</h3>
+                            <h3 class="fw-bold mb-0">{{ $totalProducts }}</h3>
                         </div>
                         <div class="bg-danger bg-opacity-10 p-3 rounded">
                             <i class="bi bi-flower2 text-danger" style="font-size: 24px;"></i>
                         </div>
                     </div>
-                    <small class="text-danger"><i class="bi bi-boxes"></i> Trong cửa hàng</small>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-danger"><i class="bi bi-boxes"></i> Trong cửa hàng</small>
+                            <a href="{{ route('admin.reviews.index') }}" class="text-decoration-none small text-warning fw-semibold">
+                                <i class="bi bi-star-fill"></i> {{ $averageRating }} ({{ $totalReviews }} ĐG)
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
