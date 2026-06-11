@@ -103,13 +103,13 @@ Admin:
 
 ```text
 Email: admin@gmail.com
-Password: 12345678
+Password: Admin123@
 ```
 
 Customer:
 
 ```text
-Email: customer@gmail.com
+Email: vy@gmail.com
 Password: 12345678
 ```
 
