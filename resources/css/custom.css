@@ -137,6 +137,15 @@ a:hover {
     padding: 1.5rem;
 }
 
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+    color: white !important;
+}
+
 .card-body {
     padding: 1.5rem;
 }
