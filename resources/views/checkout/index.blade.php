@@ -10,6 +10,11 @@
     $formattedCartTotal = number_format($cartTotal) . ' VND';
     $formattedDiscount = number_format($discountAmount) . ' VND';
     $formattedFinalTotal = number_format($finalTotal) . ' VND';
+    
+    // Generate alphanumeric transfer note to ensure wide compatibility with banks
+    $transferDescription = 'FLORAL' . auth()->id() . 'T' . now()->format('His');
+    // VietQR URL with MB Bank (970422), account number 225515233865, compact style, amount and description
+    $qrUrl = "https://img.vietqr.io/image/970422-225515233865-compact.png?amount={$finalTotal}&addInfo=" . urlencode($transferDescription) . "&accountName=" . urlencode("FLORAL SHOP");
 @endphp
 
 <div class="container-fluid px-4 py-5">
@@ -103,24 +108,36 @@
 
                             <div class="bank-transfer-box mt-3 d-none" id="bankTransferBox">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <div class="qr-frame">
-                                            <img src="{{ asset('assets/payment/qrcode.png') }}"
-                                                 alt="QR chuyển khoản"
-                                                 class="img-fluid"
+                                    <div class="col-md-5">
+                                        <div class="qr-frame shadow-sm border rounded p-2 bg-light">
+                                            <img src="{{ $qrUrl }}"
+                                                 alt="QR chuyển khoản VietQR"
+                                                 class="img-fluid rounded"
                                                  id="paymentQrImage">
+                                            <div class="qr-missing d-none text-center p-3 text-muted" id="paymentQrMissing">
+                                                <i class="bi bi-qr-code" style="font-size: 2.5rem;"></i>
+                                                <p class="mb-0 mt-2 small">Không thể tải mã QR</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="mb-3">
-                                            <span class="text-muted">Số tài khoản:</span>
-                                            <strong class="fs-5 ms-2 text-primary">225515233865</strong>
+                                    <div class="col-md-7">
+                                        <div class="mb-2">
+                                            <span class="text-muted small">Ngân hàng:</span>
+                                            <strong class="ms-1 text-dark d-block">MB Bank (Ngân hàng Quân đội)</strong>
                                         </div>
-                                        <p class="mb-2 text-muted">Số tiền cần thanh toán</p>
-                                        <div class="payment-amount">{{ $formattedFinalTotal }}</div>
-                                        <div class="payment-note mt-3">
-                                            Nội dung chuyển khoản:
-                                            <strong>FLORAL-{{ auth()->id() }}-{{ now()->format('His') }}</strong>
+                                        <div class="mb-2">
+                                            <span class="text-muted small">Chủ tài khoản:</span>
+                                            <strong class="ms-1 text-dark d-block">FLORAL SHOP</strong>
+                                        </div>
+                                        <div class="mb-3">
+                                            <span class="text-muted small">Số tài khoản:</span>
+                                            <strong class="fs-5 ms-1 text-primary d-block">225515233865</strong>
+                                        </div>
+                                        <p class="mb-1 text-muted small">Số tiền cần thanh toán:</p>
+                                        <div class="payment-amount mb-3 fs-4 text-success">{{ $formattedFinalTotal }}</div>
+                                        <div class="payment-note p-3 bg-opacity-10 border border-success rounded">
+                                            <span class="text-muted small d-block mb-1">Nội dung chuyển khoản:</span>
+                                            <strong class="text-danger fs-5">{{ $transferDescription }}</strong>
                                         </div>
                                     </div>
                                 </div>

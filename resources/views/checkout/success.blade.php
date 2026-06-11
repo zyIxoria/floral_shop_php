@@ -50,6 +50,45 @@
                         </div>
                     </div>
 
+                    @if($order->payment_method === 'bank_transfer')
+                    <div class="bg-light p-4 rounded text-start mb-4 border border-warning bg-warning bg-opacity-10">
+                        <h5 class="fw-bold border-bottom border-warning pb-2 mb-3 text-warning-dark" style="color: #664d03 !important;"><i class="bi bi-wallet2"></i> Thông Tin Chuyển Khoản</h5>
+                        @php
+                            // Use the actual order number for the transfer description to make verification easy
+                            $transferDescription = 'FLORAL' . auth()->id() . 'ORD' . $order->id;
+                            $qrUrl = "https://img.vietqr.io/image/970422-225515233865-compact.png?amount=" . round($order->total) . "&addInfo=" . urlencode($transferDescription) . "&accountName=" . urlencode("FLORAL SHOP");
+                        @endphp
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-4 text-center">
+                                <img src="{{ $qrUrl }}" alt="QR VietQR" class="img-fluid rounded border shadow-sm bg-white p-2" style="max-height: 200px;">
+                                <div class="mt-2 small text-muted"><i class="bi bi-qr-code-scan"></i> Quét mã để thanh toán</div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-2">
+                                    <span class="text-muted">Ngân hàng:</span>
+                                    <strong class="ms-2">MB Bank (Ngân hàng Quân đội)</strong>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">Chủ tài khoản:</span>
+                                    <strong class="ms-2">FLORAL SHOP</strong>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">Số tài khoản:</span>
+                                    <strong class="ms-2 text-primary fs-5">225515233865</strong>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-muted">Số tiền:</span>
+                                    <strong class="ms-2 text-danger fs-5">{{ number_format($order->total, 0, ',', '.') }} ₫</strong>
+                                </div>
+                                <div class="mb-0 p-2 bg-white rounded border border-warning mt-2">
+                                    <span class="text-muted small">Nội dung chuyển khoản:</span>
+                                    <strong class="ms-2 text-danger fs-5">{{ $transferDescription }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="bg-light p-4 rounded text-start mb-4">
                         <h5 class="fw-bold border-bottom pb-2 mb-3">Thông Tin Giao Hàng</h5>
                         <p class="mb-1"><strong>Người nhận:</strong> {{ auth()->user()->name }}</p>

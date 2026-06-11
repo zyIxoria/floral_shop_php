@@ -98,6 +98,27 @@
                         </span>
                     </p>
 
+                    @if($order->payment_method === 'bank_transfer' && $order->status === 'pending')
+                    <div class="alert alert-warning border border-warning bg-warning bg-opacity-10 mt-3 p-3 text-start">
+                        <h6 class="fw-bold text-warning-dark mb-2" style="color: #664d03;"><i class="bi bi-wallet2"></i> Thông Tin Chuyển Khoản</h6>
+                        @php
+                            $transferDescription = 'FLORAL' . auth()->id() . 'ORD' . $order->id;
+                            $qrUrl = "https://img.vietqr.io/image/970422-225515233865-compact.png?amount=" . round($order->total) . "&addInfo=" . urlencode($transferDescription) . "&accountName=" . urlencode("FLORAL SHOP");
+                        @endphp
+                        <div class="row g-2 align-items-center">
+                            <div class="col-sm-4 text-center">
+                                <img src="{{ $qrUrl }}" alt="QR VietQR" class="img-fluid rounded border bg-white p-1" style="max-height: 120px;">
+                            </div>
+                            <div class="col-sm-8" style="font-size: 0.85rem;">
+                                <div><strong>MB Bank (Ngân hàng Quân đội)</strong></div>
+                                <div>Số tài khoản: <strong class="text-primary">225515233865</strong></div>
+                                <div>Số tiền: <strong class="text-danger">{{ number_format($order->total, 0, ',', '.') }} ₫</strong></div>
+                                <div>Nội dung: <strong class="text-danger">{{ $transferDescription }}</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                     <h6 class="fw-bold mt-4">Sản Phẩm:</h6>
                     <div class="table-responsive">
                         <table class="table table-sm">
