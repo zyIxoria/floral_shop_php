@@ -25,7 +25,7 @@
                         <tr class="border-bottom">
                             <td>
                                 <div class="d-flex gap-3 align-items-center">
-                                    <img src="{{ Storage::url($item->product->image) }}" alt="{{ $item->product->name }}" 
+                                    <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" 
                                          style="width: 60px; height: 60px; object-fit: cover;" class="rounded">
                                     <div>
                                         <a href="{{ route('products.show', $item->product->slug) }}" class="text-decoration-none fw-bold">

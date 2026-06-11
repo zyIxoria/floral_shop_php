@@ -60,23 +60,39 @@
                         
                         <!-- Main Image -->
                         <div class="mb-3">
-                            <label for="image" class="form-label fw-bold">Hình ảnh chính</label>
+                            <label class="form-label fw-bold">Hình ảnh chính</label>
                             
                             @if($product->image)
                                 <div class="mb-3">
-                                    <p class="text-muted small">Hình ảnh hiện tại:</p>
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
-                                         style="max-width: 200px; border-radius: 8px;">
+                                    <p class="text-muted small mb-1">Hình ảnh hiện tại:</p>
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
+                                         style="max-width: 200px; border-radius: 8px;" class="border p-1 bg-white shadow-sm">
                                 </div>
                             @endif
                             
-                            <div class="input-group">
-                                <input type="file" class="form-control @error('image') is-invalid @enderror" 
-                                       id="image" name="image" accept="image/*">
+                            <ul class="nav nav-tabs mb-2" id="imageTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active py-1 px-3" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-pane" type="button" role="tab" style="font-size: 0.85rem;">Tải lên file</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link py-1 px-3" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-pane" type="button" role="tab" style="font-size: 0.85rem;">Nhập link ảnh online</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content border p-3 rounded bg-light" id="imageTabContent">
+                                <div class="tab-pane fade show active" id="upload-pane" role="tabpanel">
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                                    <small class="text-muted d-block mt-1">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB) - Bỏ trống nếu không muốn thay đổi</small>
+                                </div>
+                                <div class="tab-pane fade" id="url-pane" role="tabpanel">
+                                    <input type="url" class="form-control @error('image_url') is-invalid @enderror" id="image_url" name="image_url" placeholder="https://example.com/image.jpg" value="{{ old('image_url', Str::startsWith($product->image, ['http://', 'https://']) ? $product->image : '') }}">
+                                    <small class="text-muted d-block mt-1">Nhập đường dẫn trực tiếp của hình ảnh (phải bắt đầu bằng http:// hoặc https://)</small>
+                                </div>
                             </div>
-                            <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB) - Bỏ trống nếu không muốn thay đổi</small>
                             @error('image')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
+                            @enderror
+                            @error('image_url')
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         
@@ -88,7 +104,7 @@
                                     @foreach($product->images as $img)
                                         <div class="col-6 col-md-3 text-center position-relative">
                                             <div class="border rounded p-1 bg-white h-100 d-flex flex-column justify-content-between">
-                                                <img src="{{ Storage::url($img->image) }}" alt="Gallery Image" class="img-fluid rounded" style="height: 100px; object-fit: cover;">
+                                                <img src="{{ $img->image_url }}" alt="Gallery Image" class="img-fluid rounded shadow-sm" style="height: 100px; object-fit: cover;">
                                                 <div class="form-check mt-2 d-flex justify-content-center">
                                                     <input class="form-check-input me-1" type="checkbox" name="delete_images[]" value="{{ $img->id }}" id="del_img_{{ $img->id }}">
                                                     <label class="form-check-label small text-danger" for="del_img_{{ $img->id }}">
@@ -103,17 +119,33 @@
                                 <div class="alert alert-warning py-2 mb-3 small">Sản phẩm hiện chưa có hình ảnh mô tả nào. Bạn phải tải lên ít nhất 3 ảnh!</div>
                             @endif
 
-                            <label for="description_images" class="form-label fw-bold">Thêm hình ảnh mô tả mới (Tối thiểu 3 hình ảnh mô tả tổng cộng)</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control @error('description_images') is-invalid @enderror @error('description_images.*') is-invalid @enderror" 
-                                       id="description_images" name="description_images[]" accept="image/*" multiple>
+                            <label class="form-label fw-bold">Thêm hình ảnh mô tả mới (Tối thiểu 3 hình ảnh mô tả tổng cộng)</label>
+                            <ul class="nav nav-tabs mb-2" id="galleryTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active py-1 px-3" id="gallery-upload-tab" data-bs-toggle="tab" data-bs-target="#gallery-upload-pane" type="button" role="tab" style="font-size: 0.85rem;">Tải lên file</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link py-1 px-3" id="gallery-url-tab" data-bs-toggle="tab" data-bs-target="#gallery-url-pane" type="button" role="tab" style="font-size: 0.85rem;">Nhập link ảnh online</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content border p-3 rounded bg-light" id="galleryTabContent">
+                                <div class="tab-pane fade show active" id="gallery-upload-pane" role="tabpanel">
+                                    <input type="file" class="form-control @error('description_images') is-invalid @enderror @error('description_images.*') is-invalid @enderror" id="description_images" name="description_images[]" accept="image/*" multiple>
+                                    <small class="text-muted d-block mt-1">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB/ảnh). Chọn nhiều file.</small>
+                                </div>
+                                <div class="tab-pane fade" id="gallery-url-pane" role="tabpanel">
+                                    <textarea class="form-control @error('description_images_urls') is-invalid @enderror" id="description_images_urls" name="description_images_urls" rows="4" placeholder="Nhập mỗi link ảnh trên một dòng. Ví dụ:&#10;https://example.com/image1.jpg&#10;https://example.com/image2.jpg">{{ old('description_images_urls') }}</textarea>
+                                    <small class="text-muted d-block mt-1">Mỗi dòng là một đường dẫn hình ảnh trực tiếp.</small>
+                                </div>
                             </div>
-                            <small class="text-muted">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB/ảnh). Sản phẩm phải giữ lại ít nhất 3 hình ảnh mô tả.</small>
                             @error('description_images')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
+                            @enderror
+                            @error('description_images_urls')
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                             @enderror
                             @error('description_images.*')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         

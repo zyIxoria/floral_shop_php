@@ -31,13 +31,19 @@ class CategoryAdminController extends Controller
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('categories', 'public');
+        } elseif ($request->filled('image_url')) {
+            $validated['image'] = $request->input('image_url');
         }
 
         $validated['slug'] = Str::slug($validated['name']);
+
+        // Remove field not in table
+        unset($validated['image_url']);
 
         Category::create($validated);
 
@@ -56,13 +62,20 @@ class CategoryAdminController extends Controller
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('categories', 'public');
+        } elseif ($request->filled('image_url')) {
+            $validated['image'] = $request->input('image_url');
         }
 
         $validated['slug'] = Str::slug($validated['name']);
+
+        // Remove field not in table
+        unset($validated['image_url']);
+
         $category->update($validated);
 
         return back()->with('success', 'Category updated successfully');

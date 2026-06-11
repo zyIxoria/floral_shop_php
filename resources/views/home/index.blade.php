@@ -21,7 +21,11 @@
             </div>
             <div class="col-lg-6 mt-5 mt-lg-0">
                 <div class="text-center">
-                    <img src="{{ Storage::url('avatars/dashboard.jpg') }}" alt="Roses" class="img-fluid rounded-4 shadow">
+                    <img 
+                        src="{{ 'https://i.pinimg.com/1200x/28/70/42/2870428239e7d54f21ceca6ce4c098e8.jpg' }}"
+                        alt="Roses"
+                        class="img-fluid rounded-4 shadow"
+                    >
                 </div>
             </div>
         </div>
@@ -39,7 +43,7 @@
                     <div class="card border-0 shadow-sm h-100 card-hover">
                         <div class="card-img-top bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center;">
                             @if($category->image)
-                                <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}" class="img-fluid" style="max-height: 100%; object-fit: cover;">
+                                <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                             @else
                                 <i class="bi bi-flower1" style="font-size: 3rem; color: #ffc0e3;"></i>
                             @endif

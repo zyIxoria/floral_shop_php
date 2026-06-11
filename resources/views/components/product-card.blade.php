@@ -2,7 +2,7 @@
 <div class="card border-0 shadow-sm h-100 product-card">
     <div class="position-relative overflow-hidden" style="height: 250px;">
         <a href="{{ route('products.show', $product->slug) }}">
-            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="card-img-top h-100 object-fit-cover">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="card-img-top h-100 object-fit-cover">
         </a>
         @if($product->isOnSale())
         <span class="badge bg-danger position-absolute top-0 end-0 m-2">

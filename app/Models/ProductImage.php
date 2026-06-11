@@ -15,6 +15,19 @@ class ProductImage extends Model
         'order',
     ];
 
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return null;
+        }
+        if (\Illuminate\Support\Str::startsWith($this->image, ['http://', 'https://'])) {
+            return $this->image;
+        }
+        return \Illuminate\Support\Facades\Storage::url($this->image);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

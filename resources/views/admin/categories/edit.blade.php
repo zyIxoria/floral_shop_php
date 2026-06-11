@@ -49,20 +49,38 @@
                         
                         <!-- Category Image -->
                         <div class="mb-3">
-                            <label for="image" class="form-label fw-bold">Hình ảnh danh mục</label>
+                            <label class="form-label fw-bold">Hình ảnh danh mục</label>
                             @if($category->image)
-                                <div class="mb-2">
-                                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" 
-                                         style="max-width: 200px; height: auto; border-radius: 8px;">
+                                <div class="mb-3">
+                                    <p class="text-muted small mb-1">Hình ảnh hiện tại:</p>
+                                    <img src="{{ $category->image_url }}" alt="{{ $category->name }}" 
+                                         style="max-width: 200px; height: auto; border-radius: 8px;" class="border p-1 bg-white shadow-sm">
                                 </div>
                             @endif
-                            <div class="input-group">
-                                <input type="file" class="form-control @error('image') is-invalid @enderror" 
-                                       id="image" name="image" accept="image/*">
+                            
+                            <ul class="nav nav-tabs mb-2" id="imageTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active py-1 px-3" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-pane" type="button" role="tab" style="font-size: 0.85rem;">Tải lên file</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link py-1 px-3" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-pane" type="button" role="tab" style="font-size: 0.85rem;">Nhập link ảnh online</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content border p-3 rounded bg-light" id="imageTabContent">
+                                <div class="tab-pane fade show active" id="upload-pane" role="tabpanel">
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                                    <small class="text-muted d-block mt-1">Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB) - Bỏ trống nếu không muốn thay đổi</small>
+                                </div>
+                                <div class="tab-pane fade" id="url-pane" role="tabpanel">
+                                    <input type="url" class="form-control @error('image_url') is-invalid @enderror" id="image_url" name="image_url" placeholder="https://example.com/image.jpg" value="{{ old('image_url', Str::startsWith($category->image, ['http://', 'https://']) ? $category->image : '') }}">
+                                    <small class="text-muted d-block mt-1">Nhập đường dẫn trực tiếp của hình ảnh (phải bắt đầu bằng http:// hoặc https://)</small>
+                                </div>
                             </div>
-                            <small class="text-muted">Để trống nếu không muốn thay đổi hình ảnh. Định dạng: JPEG, PNG, JPG, GIF (Max: 2MB)</small>
                             @error('image')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
+                            @enderror
+                            @error('image_url')
+                                <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         

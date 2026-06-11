@@ -29,6 +29,8 @@ class Product extends Model
         'rating' => 'decimal:2',
     ];
 
+    protected $appends = ['image_url'];
+
     // Relationships
     public function category()
     {
@@ -87,5 +89,16 @@ class Product extends Model
     public function getAverageRating(): float
     {
         return $this->rating;
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return null;
+        }
+        if (\Illuminate\Support\Str::startsWith($this->image, ['http://', 'https://'])) {
+            return $this->image;
+        }
+        return \Illuminate\Support\Facades\Storage::url($this->image);
     }
 }

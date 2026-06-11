@@ -9,16 +9,16 @@
         <div class="col-lg-5">
             <div class="card border-0">
                 <div class="card-body p-0">
-                    <img id="mainImage" src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded">
+                    <img id="mainImage" src="{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid rounded">
                 </div>
             </div>
             @if($product->images->count() > 0)
             <div class="d-flex gap-2 mt-3">
-                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" 
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" 
                      class="img-thumbnail cursor-pointer" style="width: 80px; height: 80px; object-fit: cover;"
                      onclick="document.getElementById('mainImage').src = this.src">
                 @foreach($product->images as $image)
-                <img src="{{ Storage::url($image->image) }}" alt="{{ $product->name }}" 
+                <img src="{{ $image->image_url }}" alt="{{ $product->name }}" 
                      class="img-thumbnail cursor-pointer" style="width: 80px; height: 80px; object-fit: cover;"
                      onclick="document.getElementById('mainImage').src = this.src">
                 @endforeach
@@ -215,7 +215,7 @@
             @foreach($relatedProducts as $related)
             <div class="card border-0 shadow-sm mb-3">
                 <div style="height: 150px; overflow: hidden;">
-                    <img src="{{ Storage::url($related->image) }}" alt="{{ $related->name }}" class="card-img-top h-100 object-fit-cover">
+                    <img src="{{ $related->image_url }}" alt="{{ $related->name }}" class="card-img-top h-100 object-fit-cover">
                 </div>
                 <div class="card-body p-3">
                     <a href="{{ route('products.show', $related->slug) }}" class="text-decoration-none">
