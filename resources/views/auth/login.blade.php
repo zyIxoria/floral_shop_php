@@ -41,7 +41,10 @@
 
                         <div class="mb-4">
 
-                            <label>Mật Khẩu</label>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="mb-0">Mật Khẩu</label>
+                                <a href="{{ route('password.request') }}" class="text-decoration-none small text-muted">Quên mật khẩu?</a>
+                            </div>
 
                             <input type="password"
                                    name="password"
