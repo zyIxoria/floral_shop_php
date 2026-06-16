@@ -55,6 +55,8 @@ Ví dụ với MySQL CLI:
 
 ```bash
 mysql -u root -p -e "CREATE DATABASE floralshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+mysql -u root -p -e "DROP DATABASE floralshop;"
 ```
 
 5. Cập nhật `.env` cho đúng database:
@@ -103,13 +105,13 @@ Admin:
 
 ```text
 Email: admin@gmail.com
-Password: 12345678
+Password: Admin123@
 ```
 
 Customer:
 
 ```text
-Email: customer@gmail.com
+Email: vy@gmail.com
 Password: 12345678
 ```
 
@@ -158,6 +160,8 @@ Muốn xóa cache Laravel:
 php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
+php artisan migrate:fresh
+php artisan migrate:fresh --seed
 ```
 
 ## Cấu trúc chính
